@@ -343,6 +343,194 @@ const INITIAL_COMMANDS = [
     dangerous: false,
     isWorkflow: true,
     notes: 'Always update main before creating new feature branches. --rebase keeps history clean by avoiding unnecessary merge commits when pulling updates.'
+  },
+  {
+    id: 17,
+    title: 'Clone Repository',
+    commands: [
+      '// Clone repository to your local machine',
+      'git clone https://github.com/username/repo.git',
+      '// Navigate into the cloned repository',
+      'cd repo'
+    ],
+    description: 'Download existing repository from GitHub',
+    category: 'Setup',
+    useCase: 'Starting work on existing project or contributing to open source',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'Replace username/repo with actual repository path. This creates a new folder with the repo name. Use "git clone url foldername" to specify a different folder name.'
+  },
+  {
+    id: 18,
+    title: 'Discard All Local Changes',
+    commands: [
+      '// WARNING: This permanently deletes all uncommitted changes',
+      '# WARNING: This permanently deletes all uncommitted changes',
+      '// Reset all files to last commit state',
+      'git reset --hard HEAD',
+      '// Remove untracked files and directories',
+      'git clean -fd'
+    ],
+    description: 'Throw away all local changes and return to clean state',
+    category: 'Cleanup',
+    useCase: 'When you want to completely start over from last commit',
+    dangerous: true,
+    isWorkflow: true,
+    notes: 'DANGEROUS: Cannot be undone! All uncommitted changes will be permanently lost. --hard resets tracked files, clean -fd removes untracked files/folders. Use "git stash" instead if you might need changes later.'
+  },
+  {
+    id: 19,
+    title: 'Undo Changes in Specific File',
+    commands: [
+      '// Restore file to last committed version',
+      'git restore filename',
+      '// Or for older Git versions',
+      '# git checkout -- filename'
+    ],
+    description: 'Discard changes in specific file only',
+    category: 'Workflows',
+    useCase: 'Made mistakes in one file but want to keep changes in others',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'Replace "filename" with actual file path (e.g., src/App.jsx). This only affects unstaged changes. For staged files, use "git restore --staged filename" first.'
+  },
+  {
+    id: 20,
+    title: 'Revert Pushed Commit',
+    commands: [
+      '// View recent commits to find the one to undo',
+      'git log --oneline -10',
+      '// Copy the commit hash you want to undo',
+      '# Copy the commit hash you want to undo',
+      '// Create new commit that undoes the bad commit',
+      'git revert commit-hash',
+      '// Push the revert commit',
+      'git push origin branch-name'
+    ],
+    description: 'Safely undo a commit that has been pushed',
+    category: 'Advanced',
+    useCase: 'Need to undo changes that are already in remote/shared history',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'Revert is SAFE for shared branches - it creates a new commit that undoes changes instead of rewriting history. Use this instead of reset when the commit is already pushed. To revert multiple commits, use "git revert commit1..commit2".'
+  },
+  {
+    id: 21,
+    title: 'Squash Commits Before PR',
+    commands: [
+      '// Start interactive rebase for last N commits (e.g., 3)',
+      'git rebase -i HEAD~3',
+      '// In editor: change "pick" to "squash" for commits to combine',
+      '# In editor: change "pick" to "squash" (or "s") for commits to combine',
+      '// Save and close editor',
+      '# Save and close editor',
+      '// Edit commit message in next editor',
+      '# Edit commit message in next editor',
+      '// Force push the squashed commits',
+      'git push --force-with-lease origin branch-name'
+    ],
+    description: 'Combine multiple commits into one clean commit',
+    category: 'Advanced',
+    useCase: 'Clean up messy commit history before creating pull request',
+    dangerous: true,
+    isWorkflow: true,
+    notes: 'Interactive rebase opens editor showing commits. Keep first commit as "pick", change others to "squash" or "s" to merge them. Results in clean, single commit. Example: 10 small commits → 1 clean commit with good message.'
+  },
+  {
+    id: 22,
+    title: 'Recover Lost Commits',
+    commands: [
+      '// View all recent Git actions (even deleted commits)',
+      'git reflog',
+      '// Find the commit hash you want to recover',
+      '# Find the commit hash you want to recover (e.g., abc1234)',
+      '// Create new branch from that commit',
+      'git checkout -b recovery-branch abc1234',
+      '// Or cherry-pick specific commit to current branch',
+      '# git cherry-pick abc1234'
+    ],
+    description: 'Recover commits that were accidentally deleted or lost',
+    category: 'Advanced',
+    useCase: 'Accidentally reset/deleted commits and need them back',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'Reflog shows ALL your Git actions for ~30 days, even deleted commits. Look for the action before you lost commits (e.g., "HEAD@{5}: commit: Your message"). Use that hash to recover. Lifesaver for "oh no I deleted everything" moments!'
+  },
+  {
+    id: 23,
+    title: 'Create Release Tag',
+    commands: [
+      '// Create annotated tag with version number',
+      'git tag -a v1.0.0 -m "Release version 1.0.0"',
+      '// Push tag to remote',
+      'git push origin v1.0.0',
+      '// Or push all tags at once',
+      '# git push origin --tags'
+    ],
+    description: 'Mark specific commit as a release version',
+    category: 'Advanced',
+    useCase: 'Creating versioned releases for production deployments',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'Tags mark important points in history (releases, milestones). Use semantic versioning: v1.0.0 (major.minor.patch). Annotated tags (-a) include message and metadata. GitHub can create releases from tags.'
+  },
+  {
+    id: 24,
+    title: 'Work with Forked Repository',
+    commands: [
+      '// Add original repo as upstream remote',
+      'git remote add upstream https://github.com/original-owner/repo.git',
+      '// Fetch latest from original repo',
+      'git fetch upstream',
+      '// Switch to your main branch',
+      'git checkout main',
+      '// Merge upstream changes into your fork',
+      'git merge upstream/main',
+      '// Push updated main to your fork',
+      'git push origin main'
+    ],
+    description: 'Sync your fork with original repository',
+    category: 'Advanced',
+    useCase: 'Contributing to open source - keep your fork up to date',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'When you fork a repo, "origin" = your fork, "upstream" = original repo. Regularly sync to get latest changes from original. After syncing, create feature branches from updated main to make pull requests.'
+  },
+  {
+    id: 25,
+    title: 'Compare Branches',
+    commands: [
+      '// See files that differ between branches',
+      'git diff --name-only branch1..branch2',
+      '// See detailed changes between branches',
+      'git diff branch1..branch2',
+      '// See commits that exist in branch2 but not branch1',
+      'git log branch1..branch2 --oneline'
+    ],
+    description: 'View differences between two branches',
+    category: 'Info',
+    useCase: 'Understanding what changed between branches before merging',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'Use --name-only to just see which files changed. Without it, shows full code diff. Useful before merging to review all changes. Compare your feature branch with main to see what your PR will include.'
+  },
+  {
+    id: 26,
+    title: 'List All Branches',
+    commands: [
+      '// List local branches (* shows current)',
+      'git branch',
+      '// List all branches including remote',
+      'git branch -a',
+      '// List with last commit info',
+      'git branch -v'
+    ],
+    description: 'View all local and remote branches',
+    category: 'Info',
+    useCase: 'See what branches exist and which one you are on',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'Current branch marked with *. -a shows remote branches (origin/branch-name). -v shows last commit on each branch. Helpful to see what branches exist before switching or to find old feature branches.'
   }
 ];
 
