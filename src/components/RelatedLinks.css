@@ -1,0 +1,70 @@
+.related-links {
+  padding: 1rem 1.5rem;
+  background: var(--code-bg);
+  border-top: 2px solid var(--border-color);
+}
+
+.related-links-header {
+  margin-bottom: 0.75rem;
+}
+
+.related-label {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.related-links-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.related-link-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.related-link-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.link-icon {
+  font-size: 1.1rem;
+}
+
+.link-title {
+  color: var(--text-primary);
+  font-weight: 500;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remove-link-btn {
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0 0.25rem;
+  margin-left: 0.25rem;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.remove-link-btn:hover {
+  color: #ef4444;
+}
