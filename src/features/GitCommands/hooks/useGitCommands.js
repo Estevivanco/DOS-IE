@@ -6,8 +6,11 @@ const INITIAL_COMMANDS = [
     id: 1,
     title: 'Push Your Branch',
     commands: [
+      '// Stage all changed files for commit',
       'git add .',
+      '// Create commit with descriptive message',
       'git commit -m "your message"',
+      '// Upload commits to remote repository',
       'git push origin branch-name'
     ],
     description: 'Complete workflow to commit and push your changes',
@@ -24,9 +27,13 @@ const INITIAL_COMMANDS = [
     id: 2,
     title: 'Update Your Branch',
     commands: [
+      '// Download latest commits from remote (doesn\'t modify local files)',
       'git fetch origin',
+      '// Apply remote changes, then replay your commits on top',
       'git pull --rebase origin branch-name',
+      '// Resolve any conflicts if they appear',
       '# Resolve any conflicts if they appear',
+      '// Upload your rebased commits to remote',
       'git push origin branch-name'
     ],
     description: 'Get latest changes from remote and update your branch',
@@ -43,10 +50,15 @@ const INITIAL_COMMANDS = [
     id: 3,
     title: 'Update Development Branch',
     commands: [
+      '// Switch to develop branch',
       'git checkout develop',
+      '// Get latest develop changes from remote',
       'git pull origin develop',
+      '// Switch back to your feature branch',
       'git checkout your-branch',
+      '// Merge latest develop into your branch',
       'git merge develop',
+      '// Push merged result to remote',
       'git push origin your-branch'
     ],
     description: 'Pull latest develop and merge into your feature branch',
@@ -60,9 +72,13 @@ const INITIAL_COMMANDS = [
     id: 4,
     title: 'Create New Feature Branch',
     commands: [
+      '// Switch to develop branch',
       'git checkout develop',
+      '// Make sure develop is up-to-date',
       'git pull origin develop',
+      '// Create and switch to new branch',
       'git checkout -b feature/your-feature-name',
+      '// Push new branch and set upstream tracking',
       'git push -u origin feature/your-feature-name'
     ],
     description: 'Start new feature branch from latest develop',
@@ -76,10 +92,15 @@ const INITIAL_COMMANDS = [
     id: 5,
     title: 'Fix Merge Conflicts',
     commands: [
+      '// Check which files have conflicts',
       'git status',
+      '// Edit conflicted files (look for <<<<<<< markers)',
       '# Edit conflicted files (look for <<<<<<< markers)',
+      '// Stage resolved files',
       'git add .',
+      '// Commit the resolution',
       'git commit -m "Resolved merge conflicts"',
+      '// Push to remote',
       'git push origin branch-name'
     ],
     description: 'Resolve and complete merge when conflicts occur',
@@ -93,8 +114,11 @@ const INITIAL_COMMANDS = [
     id: 6,
     title: 'Amend Last Commit',
     commands: [
+      '// Stage the forgotten files',
       'git add .',
+      '// Add staged files to last commit (keep same message)',
       'git commit --amend --no-edit',
+      '// Force push safely (fails if remote changed)',
       'git push --force-with-lease origin branch-name'
     ],
     description: 'Add forgotten files to last commit',
@@ -108,10 +132,15 @@ const INITIAL_COMMANDS = [
     id: 7,
     title: 'Undo Last Commit (Keep Changes)',
     commands: [
+      '// Remove last commit but keep files staged',
       'git reset --soft HEAD~1',
+      '// Make your changes',
       '# Make your changes',
+      '// Stage any additional changes',
       'git add .',
+      '// Create new commit with corrected message/changes',
       'git commit -m "new message"',
+      '// Push the new commit',
       'git push origin branch-name'
     ],
     description: 'Undo last commit but keep the changes to recommit',
@@ -125,10 +154,15 @@ const INITIAL_COMMANDS = [
     id: 8,
     title: 'Stash and Switch Branch',
     commands: [
+      '// Temporarily save uncommitted changes',
       'git stash save "work in progress"',
+      '// Switch to different branch (now clean)',
       'git checkout other-branch',
+      '// Do your work on other branch',
       '# Do your work on other branch',
+      '// Switch back to original branch',
       'git checkout original-branch',
+      '// Restore your saved changes and remove from stash',
       'git stash pop'
     ],
     description: 'Save current work, switch branches, then restore',
@@ -142,11 +176,17 @@ const INITIAL_COMMANDS = [
     id: 9,
     title: 'Rebase on Develop (Clean History)',
     commands: [
+      '// Switch to develop branch',
       'git checkout develop',
+      '// Get latest develop changes',
       'git pull origin develop',
+      '// Switch back to your feature branch',
       'git checkout your-branch',
+      '// Replay your commits on top of latest develop',
       'git rebase develop',
+      '// Resolve conflicts if any',
       '# Resolve conflicts if any',
+      '// Force push rebased commits safely',
       'git push --force-with-lease origin your-branch'
     ],
     description: 'Reapply your commits on top of latest develop',
@@ -160,8 +200,11 @@ const INITIAL_COMMANDS = [
     id: 10,
     title: 'View Branch Status',
     commands: [
+      '// Check current branch status and changes',
       'git status',
+      '// View recent commit history with graph',
       'git log --oneline --graph --decorate -10',
+      '// See detailed changes in files',
       'git diff'
     ],
     description: 'Check current state of your branch',
@@ -175,8 +218,11 @@ const INITIAL_COMMANDS = [
     id: 11,
     title: 'Delete Local and Remote Branch',
     commands: [
+      '// Switch away from branch you want to delete',
       'git checkout develop',
+      '// Delete local branch (safe: fails if unmerged)',
       'git branch -d branch-name',
+      '// Delete branch from remote repository',
       'git push origin --delete branch-name'
     ],
     description: 'Clean up merged branch locally and remotely',
@@ -190,10 +236,15 @@ const INITIAL_COMMANDS = [
     id: 12,
     title: 'Cherry-Pick Specific Commit',
     commands: [
+      '// View commits from other branch',
       'git log --oneline other-branch',
-      '# Copy the commit hash you want',
+      '// Copy the commit hash you want (e.g., abc1234)',
+      '# Copy the commit hash you want (e.g., abc1234)',
+      '// Switch to branch where you want to apply commit',
       'git checkout your-branch',
+      '// Apply that specific commit to current branch',
       'git cherry-pick commit-hash',
+      '// Push the cherry-picked commit',
       'git push origin your-branch'
     ],
     description: 'Apply specific commit from another branch',
@@ -207,10 +258,15 @@ const INITIAL_COMMANDS = [
     id: 13,
     title: 'Initialize New Vite Project',
     commands: [
+      '// Create new Vite project with guided setup',
       'npm create vite@latest project-name',
+      '// Select React and JavaScript/TypeScript',
       '# Select React and JavaScript/TypeScript',
+      '// Navigate into project folder',
       'cd project-name',
+      '// Install dependencies',
       'npm install',
+      '// Install React Router for navigation',
       'npm install react-router-dom@latest'
     ],
     description: 'Setup new Vite React project with routing',
@@ -224,12 +280,19 @@ const INITIAL_COMMANDS = [
     id: 14,
     title: 'Create Git Repository',
     commands: [
+      '// Initialize git repository in current folder',
       'git init',
+      '// Stage all files for first commit',
       'git add .',
+      '// Create first commit',
       'git commit -m "Initial commit"',
+      '// Rename default branch to "main"',
       'git branch -M main',
+      '// Connect local repo to GitHub remote repository',
       '# Connect local repo to GitHub remote repository',
+      '// Link to remote repo',
       'git remote add origin https://github.com/username/repo.git',
+      '// Push commits and set upstream tracking',
       'git push -u origin main'
     ],
     description: 'Initialize local repo and push to GitHub',
@@ -243,10 +306,15 @@ const INITIAL_COMMANDS = [
     id: 15,
     title: 'Push and Merge to Main',
     commands: [
+      '// Switch to main branch',
       'git checkout main',
+      '// Get latest main from remote',
       'git pull origin main',
+      '// Merge your feature branch into main',
       'git merge your-branch',
+      '// Resolve any conflicts if they appear',
       '# Resolve any conflicts if they appear',
+      '// Push merged main to remote',
       'git push origin main'
     ],
     description: 'Merge feature branch into main and push',
@@ -260,9 +328,13 @@ const INITIAL_COMMANDS = [
     id: 16,
     title: 'Update Main Branch',
     commands: [
+      '// Switch to main branch',
       'git checkout main',
+      '// Download latest changes from remote',
       'git fetch origin',
+      '// Pull and merge latest main changes',
       'git pull origin main',
+      '// Or use: git pull --rebase origin main',
       '# Or use: git pull --rebase origin main'
     ],
     description: 'Pull latest changes from remote main branch',

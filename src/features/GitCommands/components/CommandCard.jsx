@@ -4,9 +4,9 @@ import RelatedLinks from '../../../components/RelatedLinks';
 export default function CommandCard({ command, onCopy, onEdit, onDelete, onAddLink, onRemoveLink }) {
   const handleCopyAll = () => {
     if (command.isWorkflow && command.commands) {
-      // Copy all commands, filtering out comments
+      // Copy all commands, filtering out comments (both # and //)
       const commandText = command.commands
-        .filter(cmd => !cmd.startsWith('#'))
+        .filter(cmd => !cmd.startsWith('#') && !cmd.startsWith('//'))
         .join('\n');
       onCopy(commandText);
     } else {
@@ -54,26 +54,33 @@ export default function CommandCard({ command, onCopy, onEdit, onDelete, onAddLi
       <div className="command-content">
         {command.isWorkflow && command.commands ? (
           <div className="workflow-commands">
-            {command.commands.map((cmd, index) => (
-              <div 
-                key={index} 
-                className={cmd.startsWith('#') ? 'command-comment' : 'command-step'}
-              >
-                {!cmd.startsWith('#') && (
-                  <span className="step-number">{index + 1 - command.commands.slice(0, index).filter(c => c.startsWith('#')).length}.</span>
-                )}
-                <code>{cmd}</code>
-                {!cmd.startsWith('#') && (
-                  <button
-                    onClick={() => onCopy(cmd)}
-                    className="copy-step-btn"
-                    title="Copy this command"
-                  >
-                    📋
-                  </button>
-                )}
-              </div>
-            ))}
+            {command.commands.map((cmd, index) => {
+              const isComment = cmd.startsWith('#') || cmd.startsWith('//');
+              const stepNumber = isComment 
+                ? null 
+                : command.commands.slice(0, index).filter(c => !c.startsWith('#') && !c.startsWith('//')).length + 1;
+              
+              return (
+                <div 
+                  key={index} 
+                  className={isComment ? 'command-comment' : 'command-step'}
+                >
+                  {!isComment && (
+                    <span className="step-number">{stepNumber}.</span>
+                  )}
+                  <code>{cmd}</code>
+                  {!isComment && (
+                    <button
+                      onClick={() => onCopy(cmd)}
+                      className="copy-step-btn"
+                      title="Copy this command"
+                    >
+                      📋
+                    </button>
+                  )}
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div className="command-code">
