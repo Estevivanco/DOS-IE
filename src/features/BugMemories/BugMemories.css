@@ -10,10 +10,10 @@
   align-items: flex-start;
   margin-bottom: 2rem;
   padding: 2rem;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #fc5c65 0%, #eb3b5a 100%);
   border-radius: 16px;
   color: white;
-  box-shadow: 0 8px 24px rgba(240, 147, 251, 0.3);
+  box-shadow: 0 8px 24px rgba(252, 92, 101, 0.3);
 }
 
 .bug-memories h2 {

@@ -5,17 +5,28 @@
 }
 
 .bootstrap-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  border-radius: 16px;
+  color: white;
+  box-shadow: 0 8px 24px rgba(67, 233, 123, 0.3);
 }
 
 .project-bootstrap h2 {
   margin-bottom: 0.5rem;
-  font-size: 2rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .project-bootstrap > div > div > p {
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.95);
   margin-bottom: 0;
+  font-size: 1.1rem;
 }
 
 .templates-grid {
