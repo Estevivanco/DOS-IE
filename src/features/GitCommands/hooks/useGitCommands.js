@@ -41,7 +41,7 @@ const INITIAL_COMMANDS = [
     useCase: 'Before starting work or when others have pushed changes',
     dangerous: false,
     isWorkflow: true,
-    notes: 'Using --rebase keeps a cleaner, linear history compared to merge.',
+    notes: '--rebase replays your commits on top of the latest remote changes, creating a clean linear history (A→B→C→D→E) instead of merge commits with branches. This makes the project history easier to read and understand.',
     relatedLinks: [
       { id: 2, type: 'snippet', title: 'Debounce hook implementation' }
     ]
@@ -56,17 +56,19 @@ const INITIAL_COMMANDS = [
       'git pull origin develop',
       '// Switch back to your feature branch',
       'git checkout your-branch',
-      '// Merge latest develop into your branch',
-      'git merge develop',
-      '// Push merged result to remote',
-      'git push origin your-branch'
+      '// Rebase your commits on top of latest develop',
+      'git rebase develop',
+      '// Resolve conflicts if any',
+      '# Resolve conflicts if any',
+      '// Force push with safety check',
+      'git push --force-with-lease origin your-branch'
     ],
-    description: 'Pull latest develop and merge into your feature branch',
+    description: 'Pull latest develop and rebase your branch on top',
     category: 'Workflows',
     useCase: 'Keep your feature branch synchronized with main development',
-    dangerous: false,
+    dangerous: true,
     isWorkflow: true,
-    notes: 'Alternative: use "git rebase develop" instead of merge for cleaner history.'
+    notes: 'Rebase makes your commits appear as if they were always built on the latest develop, avoiding messy merge commits. Creates clean history: develop commits → your commits (linear). Use "git merge develop" if you prefer to preserve the exact timeline.'
   },
   {
     id: 4,
@@ -194,7 +196,7 @@ const INITIAL_COMMANDS = [
     useCase: 'Before creating PR to have clean, linear history',
     dangerous: true,
     isWorkflow: true,
-    notes: 'Rewriting history requires force push. Use --force-with-lease for safety.'
+    notes: 'Rebase "replays" your commits on top of develop, creating a straight line (develop→your commits) instead of a merge with branches. Requires force push since you\'re rewriting history. --force-with-lease is safer than --force because it fails if someone else pushed to your branch.'
   },
   {
     id: 10,
@@ -308,8 +310,8 @@ const INITIAL_COMMANDS = [
     commands: [
       '// Switch to main branch',
       'git checkout main',
-      '// Get latest main from remote',
-      'git pull origin main',
+      '// Get latest main from remote with rebase',
+      'git pull --rebase origin main',
       '// Merge your feature branch into main',
       'git merge your-branch',
       '// Resolve any conflicts if they appear',
@@ -322,7 +324,7 @@ const INITIAL_COMMANDS = [
     useCase: 'Merging completed feature into main branch',
     dangerous: true,
     isWorkflow: true,
-    notes: 'Better to use Pull Requests in GitHub/GitLab. Direct merge to main should be rare.'
+    notes: 'Better to use Pull Requests in GitHub/GitLab. Direct merge to main should be rare. Using --rebase when pulling main keeps history clean before merging your feature.'
   },
   {
     id: 16,
@@ -332,17 +334,15 @@ const INITIAL_COMMANDS = [
       'git checkout main',
       '// Download latest changes from remote',
       'git fetch origin',
-      '// Pull and merge latest main changes',
-      'git pull origin main',
-      '// Or use: git pull --rebase origin main',
-      '# Or use: git pull --rebase origin main'
+      '// Pull with rebase for clean history',
+      'git pull --rebase origin main'
     ],
     description: 'Pull latest changes from remote main branch',
     category: 'Workflows',
     useCase: 'Sync your local main with remote before starting new work',
     dangerous: false,
     isWorkflow: true,
-    notes: 'Always update main before creating new feature branches.'
+    notes: 'Always update main before creating new feature branches. --rebase keeps history clean by avoiding unnecessary merge commits when pulling updates.'
   }
 ];
 
