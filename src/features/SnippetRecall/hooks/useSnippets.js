@@ -195,7 +195,7 @@ capitalizeWords('john doe'); // "John Doe"`
     {
         id: 9,
         title: 'Debounce Hook',
-        language: 'javascript',
+        language: 'react',
         code: `import { useState, useEffect } from 'react';
 
 // Custom debounce hook
@@ -242,7 +242,7 @@ function SearchComponent() {
     {
         id: 10,
         title: 'Local Storage Hook',
-        language: 'javascript',
+        language: 'react',
         code: `import { useState, useEffect } from 'react';
 
 export function useLocalStorage(key, initialValue) {
@@ -734,7 +734,7 @@ const users = [
     {
         id: 20,
         title: 'useEffect Patterns',
-        language: 'javascript',
+        language: 'react',
         code: `import { useEffect, useState } from 'react';
 
 // Basic effect on mount
@@ -799,10 +799,10 @@ useEffect(() => {
     {
         id: 21,
         title: 'useMemo & useCallback',
-        language: 'javascript',
+        language: 'react',
         code: `import { useMemo, useCallback, useState } from 'react';
 
-// useMemo - memoize expensive calculations
+// useMemo - memorize expensive calculations
 function Component({ items }) {
     const expensiveValue = useMemo(() => {
         // Only recalculates when items changes
@@ -846,7 +846,7 @@ const filteredAndMapped = useMemo(() => {
     {
         id: 22,
         title: 'useRef Patterns',
-        language: 'javascript',
+        language: 'react',
         code: `import { useRef, useEffect } from 'react';
 
 // Focus input on mount
@@ -1374,6 +1374,1334 @@ function handleLinkClick(e) {
         // Custom behavior
     }
     // Otherwise link works normally
+}`
+    },
+    // MySQL SNIPPETS
+    {
+        id: 100,
+        title: 'Create Database & Table',
+        language: 'mysql',
+        code: `-- Create a new database
+CREATE DATABASE my_app_db;
+
+-- Use the database
+USE my_app_db;
+
+-- Create a users table
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create a posts table with foreign key
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    title VARCHAR(200) NOT NULL,
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);`
+    },
+    {
+        id: 101,
+        title: 'Insert Data',
+        language: 'mysql',
+        code: `-- Insert single row
+INSERT INTO users (username, email, password)
+VALUES ('john_doe', 'john@example.com', 'hashed_password');
+
+-- Insert multiple rows
+INSERT INTO users (username, email, password) VALUES
+    ('jane_smith', 'jane@example.com', 'hashed_pass1'),
+    ('bob_jones', 'bob@example.com', 'hashed_pass2'),
+    ('alice_wilson', 'alice@example.com', 'hashed_pass3');
+
+-- Insert and get the auto-generated ID
+INSERT INTO posts (user_id, title, content)
+VALUES (1, 'My First Post', 'This is the content');
+-- Use LAST_INSERT_ID() to get the new post ID
+SELECT LAST_INSERT_ID();`
+    },
+    {
+        id: 102,
+        title: 'Select Queries - Basics',
+        language: 'mysql',
+        code: `-- Select all columns
+SELECT * FROM users;
+
+-- Select specific columns
+SELECT username, email FROM users;
+
+-- Select with WHERE clause
+SELECT * FROM users WHERE id = 1;
+
+-- Multiple conditions (AND)
+SELECT * FROM users 
+WHERE username = 'john_doe' AND email = 'john@example.com';
+
+-- Multiple conditions (OR)
+SELECT * FROM posts 
+WHERE user_id = 1 OR user_id = 2;
+
+-- Pattern matching with LIKE
+SELECT * FROM users WHERE email LIKE '%@example.com';
+SELECT * FROM users WHERE username LIKE 'john%';
+
+-- IN operator
+SELECT * FROM users WHERE id IN (1, 3, 5, 7);
+
+-- Between range
+SELECT * FROM posts 
+WHERE created_at BETWEEN '2024-01-01' AND '2024-12-31';`
+    },
+    {
+        id: 103,
+        title: 'Update Data',
+        language: 'mysql',
+        code: `-- Update single row
+UPDATE users 
+SET email = 'newemail@example.com' 
+WHERE id = 1;
+
+-- Update multiple columns
+UPDATE users 
+SET username = 'john_updated', email = 'john_new@example.com'
+WHERE id = 1;
+
+-- Update multiple rows
+UPDATE posts 
+SET title = CONCAT('[Updated] ', title)
+WHERE user_id = 1;
+
+-- Update with calculation
+UPDATE users 
+SET login_count = login_count + 1 
+WHERE id = 1;
+
+-- ⚠️ WARNING: Without WHERE, updates ALL rows!
+-- Always use WHERE unless you mean to update everything`
+    },
+    {
+        id: 104,
+        title: 'Delete Data',
+        language: 'mysql',
+        code: `-- Delete specific row
+DELETE FROM posts WHERE id = 5;
+
+-- Delete multiple rows with condition
+DELETE FROM posts WHERE user_id = 3;
+
+-- Delete with date condition
+DELETE FROM posts 
+WHERE created_at < '2024-01-01';
+
+-- Delete all rows in table (keeps structure)
+DELETE FROM posts;
+
+-- Faster way to delete all rows (resets AUTO_INCREMENT)
+TRUNCATE TABLE posts;
+
+-- ⚠️ WARNING: Without WHERE, deletes ALL rows!
+-- Always double-check your WHERE clause`
+    },
+    {
+        id: 105,
+        title: 'JOIN Tables',
+        language: 'mysql',
+        code: `-- INNER JOIN - only matching rows
+SELECT users.username, posts.title, posts.created_at
+FROM users
+INNER JOIN posts ON users.id = posts.user_id;
+
+-- LEFT JOIN - all users, even without posts
+SELECT users.username, posts.title
+FROM users
+LEFT JOIN posts ON users.id = posts.user_id;
+
+-- Get users with post count
+SELECT users.username, COUNT(posts.id) as post_count
+FROM users
+LEFT JOIN posts ON users.id = posts.user_id
+GROUP BY users.id, users.username;
+
+-- Join with WHERE condition
+SELECT users.username, posts.title
+FROM users
+INNER JOIN posts ON users.id = posts.user_id
+WHERE users.id = 1;
+
+-- Multiple joins (3 tables)
+SELECT users.username, posts.title, comments.content
+FROM users
+INNER JOIN posts ON users.id = posts.user_id
+INNER JOIN comments ON posts.id = comments.post_id;`
+    },
+    {
+        id: 106,
+        title: 'ORDER BY & LIMIT',
+        language: 'mysql',
+        code: `-- Order by ascending (A-Z, 0-9)
+SELECT * FROM users ORDER BY username ASC;
+
+-- Order by descending (Z-A, 9-0)
+SELECT * FROM posts ORDER BY created_at DESC;
+
+-- Order by multiple columns
+SELECT * FROM users 
+ORDER BY created_at DESC, username ASC;
+
+-- Get first 10 rows
+SELECT * FROM posts LIMIT 10;
+
+-- Get newest 5 posts
+SELECT * FROM posts 
+ORDER BY created_at DESC 
+LIMIT 5;
+
+-- Pagination: skip 10, get next 10 (page 2)
+SELECT * FROM posts 
+ORDER BY created_at DESC 
+LIMIT 10 OFFSET 10;
+
+-- Shorter syntax for pagination
+SELECT * FROM posts 
+ORDER BY created_at DESC 
+LIMIT 10, 10;  -- LIMIT offset, count`
+    },
+    {
+        id: 107,
+        title: 'Aggregate Functions (COUNT, SUM, AVG)',
+        language: 'mysql',
+        code: `-- Count total rows
+SELECT COUNT(*) as total_users FROM users;
+
+-- Count non-null values
+SELECT COUNT(email) FROM users;
+
+-- Count unique values
+SELECT COUNT(DISTINCT user_id) as unique_users FROM posts;
+
+-- Sum of values
+SELECT SUM(price) as total_revenue FROM orders;
+
+-- Average
+SELECT AVG(price) as average_price FROM products;
+
+-- Min and Max
+SELECT MIN(price) as cheapest, MAX(price) as most_expensive 
+FROM products;
+
+-- GROUP BY with aggregates
+SELECT user_id, COUNT(*) as post_count
+FROM posts
+GROUP BY user_id;
+
+-- GROUP BY with HAVING (filter groups)
+SELECT user_id, COUNT(*) as post_count
+FROM posts
+GROUP BY user_id
+HAVING post_count > 5;
+
+-- Multiple aggregates
+SELECT 
+    user_id,
+    COUNT(*) as total_posts,
+    AVG(LENGTH(content)) as avg_post_length
+FROM posts
+GROUP BY user_id;`
+    },
+    {
+        id: 108,
+        title: 'Common WHERE Conditions',
+        language: 'mysql',
+        code: `-- Equals
+SELECT * FROM users WHERE id = 1;
+
+-- Not equals
+SELECT * FROM users WHERE status != 'banned';
+SELECT * FROM users WHERE status <> 'banned';  -- same thing
+
+-- Greater than / Less than
+SELECT * FROM products WHERE price > 50;
+SELECT * FROM products WHERE stock < 10;
+
+-- Greater or equal / Less or equal
+SELECT * FROM orders WHERE total >= 100;
+SELECT * FROM users WHERE age <= 18;
+
+-- IS NULL / IS NOT NULL
+SELECT * FROM users WHERE last_login IS NULL;
+SELECT * FROM users WHERE email IS NOT NULL;
+
+-- Multiple conditions with AND
+SELECT * FROM products 
+WHERE category = 'electronics' AND price < 500;
+
+-- Multiple conditions with OR
+SELECT * FROM users 
+WHERE role = 'admin' OR role = 'moderator';
+
+-- Combine AND/OR with parentheses
+SELECT * FROM products 
+WHERE (category = 'electronics' OR category = 'computers')
+AND price < 1000;
+
+-- NOT operator
+SELECT * FROM users WHERE NOT status = 'banned';`
+    },
+    {
+        id: 109,
+        title: 'Show Database Info',
+        language: 'mysql',
+        code: `-- Show all databases
+SHOW DATABASES;
+
+-- Show all tables in current database
+SHOW TABLES;
+
+-- Show table structure
+DESCRIBE users;
+-- or
+DESC users;
+-- or
+SHOW COLUMNS FROM users;
+
+-- Show create table statement
+SHOW CREATE TABLE users;
+
+-- Show indexes on table
+SHOW INDEX FROM users;
+
+-- Show current database
+SELECT DATABASE();
+
+-- Show MySQL version
+SELECT VERSION();
+
+-- Show all users
+SELECT User, Host FROM mysql.user;`
+    },
+    {
+        id: 110,
+        title: 'Modify Table Structure',
+        language: 'mysql',
+        code: `-- Add new column
+ALTER TABLE users 
+ADD COLUMN phone VARCHAR(20);
+
+-- Add column with position
+ALTER TABLE users 
+ADD COLUMN age INT AFTER email;
+
+-- Modify column type
+ALTER TABLE users 
+MODIFY COLUMN phone VARCHAR(15);
+
+-- Rename column
+ALTER TABLE users 
+CHANGE COLUMN phone phone_number VARCHAR(20);
+
+-- Drop column
+ALTER TABLE users 
+DROP COLUMN age;
+
+-- Add index
+ALTER TABLE users 
+ADD INDEX idx_email (email);
+
+-- Add unique constraint
+ALTER TABLE users 
+ADD UNIQUE (username);
+
+-- Drop table completely
+DROP TABLE IF EXISTS old_table;`
+    },
+    // CSS SNIPPETS
+    {
+        id: 200,
+        title: 'CSS Reset & Foundation',
+        language: 'css',
+        code: `/* Universal reset - removes default spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Makes width/height include padding & border */
+}
+
+/* Body foundation - good starting point */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-size: 16px;
+  line-height: 1.6; /* Comfortable reading spacing */
+  color: #333;
+  background-color: #fff;
+  min-height: 100vh; /* Full viewport height */
+  margin: 0;
+}
+
+/* Header foundation */
+header {
+  background-color: #f8f9fa;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Better image defaults */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Remove list styling when used for navigation */
+ul, ol {
+  list-style: none;
+}
+
+/* Better link defaults */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Better button defaults */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}`
+    },
+    {
+        id: 201,
+        title: 'Positioning - Anchor Elements',
+        language: 'css',
+        code: `/* STATIC - Default, normal document flow */
+.static-box {
+  position: static; /* Default - no special positioning */
+}
+
+/* RELATIVE - Positioned relative to its normal position */
+.relative-box {
+  position: relative;
+  top: 20px;    /* Moves down 20px from normal position */
+  left: 30px;   /* Moves right 30px from normal position */
+  /* Element still takes up original space in layout */
+}
+
+/* ABSOLUTE - Positioned relative to nearest positioned ancestor */
+.container {
+  position: relative; /* Creates positioning context */
+  width: 500px;
+  height: 300px;
+}
+
+.absolute-box {
+  position: absolute;
+  top: 0;      /* 0px from top of .container */
+  right: 0;    /* 0px from right of .container */
+  /* Removed from normal document flow */
+}
+
+/* FIXED - Positioned relative to viewport (stays during scroll) */
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;     /* Stretches full width */
+  background: white;
+  z-index: 100;
+  /* Stays at top even when scrolling */
+}
+
+/* STICKY - Toggles between relative and fixed */
+.sticky-nav {
+  position: sticky;
+  top: 0;       /* Becomes fixed when scrolled to top */
+  background: white;
+  /* Acts relative until scroll position is reached */
+}
+
+/* Common anchoring patterns */
+.center-absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers perfectly */
+}
+
+.bottom-right-corner {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.full-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Covers entire viewport */
+}`,
+        livePreview: {
+            description: 'Different position values visualized',
+            containerStyle: {
+                padding: '1rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.5rem'
+            },
+            layout: `
+                <div class="demo-container" style="height: 120px;">
+                    <span class="demo-label">Container</span>
+                    <div class="demo-box" style="background: #10b981;">Static (default)</div>
+                </div>
+                
+                <div class="demo-container" style="height: 150px; position: relative;">
+                    <span class="demo-label">Container (position: relative)</span>
+                    <div class="demo-box" style="background: #667eea; position: relative; top: 20px; left: 30px; width: fit-content;">Relative<br/><small>top: 20px, left: 30px</small></div>
+                </div>
+                
+                <div class="demo-container" style="height: 180px; position: relative;">
+                    <span class="demo-label">Container (position: relative)</span>
+                    <div class="demo-box" style="background: #f59e0b; position: absolute; top: 10px; right: 10px; width: 140px;">Absolute<br/><small>top: 10px, right: 10px</small></div>
+                    <div class="demo-box" style="background: #e5e7eb; color: #374151; width: fit-content;">Normal flow</div>
+                </div>
+            `
+        }
+    },
+    {
+        id: 202,
+        title: 'Z-Index & Stacking',
+        language: 'css',
+        code: `/* Z-INDEX ONLY WORKS ON POSITIONED ELEMENTS 
+   (position: relative, absolute, fixed, or sticky) */
+
+/* Basic z-index usage */
+.background-layer {
+  position: relative;
+  z-index: 1;     /* Lower number = behind */
+}
+
+.middle-layer {
+  position: relative;
+  z-index: 10;    /* Higher number = in front */
+}
+
+.top-layer {
+  position: relative;
+  z-index: 100;
+}
+
+/* Common z-index scale (good practice) */
+.page-content {
+  z-index: 1;           /* Base content */
+}
+
+.dropdown {
+  position: absolute;
+  z-index: 10;          /* Dropdowns */
+}
+
+.modal-backdrop {
+  position: fixed;
+  z-index: 1000;        /* Modal backgrounds */
+}
+
+.modal {
+  position: fixed;
+  z-index: 1001;        /* Modals on top of backdrop */
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 9999;        /* Tooltips always on top */
+}
+
+/* Negative z-index (behind parent) */
+.card {
+  position: relative;
+  z-index: 1;
+}
+
+.card-shadow {
+  position: absolute;
+  z-index: -1;          /* Behind .card */
+  /* Creates shadow effect behind card */
+}
+
+/* Example: Modal over content */
+.page {
+  position: relative;
+  z-index: 1;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;         /* Covers page */
+}
+
+.modal-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;         /* Above overlay */
+}
+
+/* Stacking context - child z-index only works within parent */
+.parent {
+  position: relative;
+  z-index: 10;
+}
+
+.child {
+  position: absolute;
+  z-index: 999;         /* Still behind elements with z-index > 10 */
+  /* Can't escape parent's stacking context */
+}`,
+        livePreview: {
+            description: 'Layering demonstration with different z-index values',
+            containerStyle: {
+                padding: '1rem',
+                minHeight: '300px'
+            },
+            layout: `
+                <div style="position: relative; height: 250px;">
+                    <div class="demo-box" style="position: absolute; top: 20px; left: 20px; width: 150px; height: 100px; background: #ef4444; z-index: 1;">z-index: 1<br/><small>(Bottom)</small></div>
+                    
+                    <div class="demo-box" style="position: absolute; top: 60px; left: 60px; width: 150px; height: 100px; background: #667eea; z-index: 10;">z-index: 10<br/><small>(Middle)</small></div>
+                    
+                    <div class="demo-box" style="position: absolute; top: 100px; left: 100px; width: 150px; height: 100px; background: #10b981; z-index: 100;">z-index: 100<br/><small>(Top)</small></div>
+                </div>
+            `
+        }
+    },
+    {
+        id: 203,
+        title: 'CSS Variables (Custom Properties)',
+        language: 'css',
+        code: `/* Define variables in :root (global scope) */
+:root {
+  /* Colors */
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+  --danger-color: #fc5c65;
+  --success-color: #10b981;
+  --text-primary: #1a202c;
+  --text-secondary: #718096;
+  --background: #ffffff;
+  --border-color: #e2e8f0;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;  /* 4px */
+  --spacing-sm: 0.5rem;   /* 8px */
+  --spacing-md: 1rem;     /* 16px */
+  --spacing-lg: 2rem;     /* 32px */
+  --spacing-xl: 4rem;     /* 64px */
+  
+  /* Font sizes */
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-md: 1rem;
+  --font-lg: 1.25rem;
+  --font-xl: 1.5rem;
+  --font-2xl: 2rem;
+  
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Use variables with var() function */
+.button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  font-size: var(--font-md);
+}
+
+.card {
+  background: var(--background);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Fallback values if variable doesn't exist */
+.text {
+  color: var(--text-color, #333); /* Uses #333 if --text-color not defined */
+}
+
+/* Override variables in specific contexts */
+.dark-theme {
+  --background: #1a202c;
+  --text-primary: #f7fafc;
+  --text-secondary: #cbd5e0;
+  --border-color: #2d3748;
+}
+
+/* Scoped variables (only for .section and children) */
+.section {
+  --section-bg: #f8f9fa;
+  --section-padding: 3rem;
+}
+
+.section-content {
+  background: var(--section-bg);
+  padding: var(--section-padding);
+}
+
+/* Calculate with variables */
+.container {
+  padding: calc(var(--spacing-md) * 2); /* 32px */
+  margin-top: calc(var(--spacing-lg) + 10px);
+}
+
+/* Using variables in JavaScript */
+/* 
+// Get variable value
+const root = document.documentElement;
+const primaryColor = getComputedStyle(root).getPropertyValue('--primary-color');
+
+// Set variable value
+root.style.setProperty('--primary-color', '#ff0000');
+*/`
+    },
+    {
+        id: 204,
+        title: 'Flexbox Basics',
+        language: 'css',
+        code: `/* Container - parent element */
+.flex-container {
+  display: flex;
+  
+  /* Direction - row (default) or column */
+  flex-direction: row;        /* Items in a row → */
+  /* flex-direction: column;  /* Items in a column ↓ */
+  
+  /* Main axis alignment (horizontal in row) */
+  justify-content: flex-start;  /* Default - start */
+  /* justify-content: center;   /* Center items */
+  /* justify-content: flex-end; /* End */
+  /* justify-content: space-between; /* Space between items */
+  /* justify-content: space-around;  /* Space around items */
+  
+  /* Cross axis alignment (vertical in row) */
+  align-items: stretch;         /* Default - stretch to fill */
+  /* align-items: center;       /* Center vertically */
+  /* align-items: flex-start;   /* Top */
+  /* align-items: flex-end;     /* Bottom */
+  
+  /* Wrap items to new line */
+  flex-wrap: nowrap;            /* Default - single line */
+  /* flex-wrap: wrap;           /* Wrap to multiple lines */
+  
+  /* Gap between items */
+  gap: 1rem;                    /* Space between all items */
+}
+
+/* Items - child elements */
+.flex-item {
+  /* Grow to fill space */
+  flex-grow: 0;                 /* Default - don't grow */
+  /* flex-grow: 1;              /* Grow to fill available space */
+  
+  /* Shrink when needed */
+  flex-shrink: 1;               /* Default - can shrink */
+  
+  /* Base size before growing/shrinking */
+  flex-basis: auto;             /* Default */
+  /* flex-basis: 200px;         /* Fixed base width */
+}
+
+/* Shorthand: flex: grow shrink basis */
+.flex-item {
+  flex: 1;                      /* Same as flex: 1 1 0 */
+  /* flex: 0 0 auto;            /* Don't grow or shrink */
+}
+
+/* Common patterns */
+.center-everything {
+  display: flex;
+  justify-content: center;      /* Center horizontally */
+  align-items: center;          /* Center vertically */
+  min-height: 100vh;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;  /* Logo left, menu right */
+  align-items: center;
+  padding: 1rem;
+}
+
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.equal-columns {
+  display: flex;
+  gap: 1rem;
+}
+
+.equal-columns > * {
+  flex: 1;                      /* All children equal width */
+}`,
+        livePreview: {
+            description: 'Common flexbox layout patterns',
+            containerStyle: {
+                padding: '1rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.5rem'
+            },
+            layout: `
+                <div class="demo-container">
+                    <span class="demo-label">justify-content: space-between</span>
+                    <div style="display: flex; justify-content: space-between; gap: 0.5rem;">
+                        <div class="demo-box" style="width: 60px; height: 50px;">1</div>
+                        <div class="demo-box" style="width: 60px; height: 50px;">2</div>
+                        <div class="demo-box" style="width: 60px; height: 50px;">3</div>
+                    </div>
+                </div>
+                
+                <div class="demo-container">
+                    <span class="demo-label">justify-content: center, align-items: center</span>
+                    <div style="display: flex; justify-content: center; align-items: center; min-height: 80px;">
+                        <div class="demo-box" style="padding: 0.75rem 1.5rem;">Centered</div>
+                    </div>
+                </div>
+                
+                <div class="demo-container">
+                    <span class="demo-label">flex: 1 (Equal width columns)</span>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <div class="demo-box" style="flex: 1; height: 50px;">flex: 1</div>
+                        <div class="demo-box" style="flex: 1; height: 50px; background: #764ba2;">flex: 1</div>
+                        <div class="demo-box" style="flex: 1; height: 50px; background: #f59e0b;">flex: 1</div>
+                    </div>
+                </div>
+            `
+        }
+    },
+    {
+        id: 205,
+        title: 'Grid Layout Basics',
+        language: 'css',
+        code: `/* Container - parent element */
+.grid-container {
+  display: grid;
+  
+  /* Define columns */
+  grid-template-columns: 1fr 1fr 1fr;     /* 3 equal columns */
+  /* grid-template-columns: 200px 1fr;    /* Fixed + flexible */
+  /* grid-template-columns: repeat(3, 1fr); /* Same as above */
+  
+  /* Define rows */
+  grid-template-rows: auto;               /* Auto height */
+  /* grid-template-rows: 100px 200px;     /* Fixed heights */
+  
+  /* Gap between items */
+  gap: 1rem;                              /* Both row & column */
+  /* column-gap: 1rem;                    /* Only column gap */
+  /* row-gap: 0.5rem;                     /* Only row gap */
+}
+
+/* Items - child elements */
+.grid-item {
+  /* Span multiple columns */
+  grid-column: span 2;                    /* Takes 2 columns */
+  /* grid-column: 1 / 3;                  /* From line 1 to 3 */
+  
+  /* Span multiple rows */
+  grid-row: span 2;
+}
+
+/* Common patterns */
+
+/* Responsive 3-column grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  /* Auto-fits as many 300px+ columns as possible */
+}
+
+/* Sidebar layout */
+.layout {
+  display: grid;
+  grid-template-columns: 250px 1fr;       /* Sidebar + main */
+  gap: 2rem;
+  min-height: 100vh;
+}
+
+/* Header, main, footer layout */
+.page {
+  display: grid;
+  grid-template-rows: auto 1fr auto;      /* Header, grow main, footer */
+  min-height: 100vh;
+}
+
+/* Named grid areas */
+.app-layout {
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "sidebar main aside"
+    "footer footer footer";
+  grid-template-columns: 200px 1fr 200px;
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;
+  min-height: 100vh;
+}
+
+.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main { grid-area: main; }
+.aside { grid-area: aside; }
+.footer { grid-area: footer; }
+
+/* Center item in grid */
+.center-in-grid {
+  display: grid;
+  place-items: center;                    /* Center both axes */
+  min-height: 100vh;
+}`,
+        livePreview: {
+            description: 'Common grid layout patterns',
+            containerStyle: {
+                padding: '1rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.5rem'
+            },
+            layout: `
+                <div class="demo-container">
+                    <span class="demo-label">grid-template-columns: 1fr 1fr 1fr</span>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;">
+                        <div class="demo-box" style="height: 50px;">1</div>
+                        <div class="demo-box" style="height: 50px; background: #764ba2;">2</div>
+                        <div class="demo-box" style="height: 50px; background: #f59e0b;">3</div>
+                    </div>
+                </div>
+                
+                <div class="demo-container">
+                    <span class="demo-label">grid-template-columns: 200px 1fr</span>
+                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 0.5rem;">
+                        <div class="demo-box" style="height: 60px; font-size: 0.75rem;">Sidebar<br/>100px</div>
+                        <div class="demo-box" style="height: 60px; background: #764ba2;">Main (1fr)</div>
+                    </div>
+                </div>
+                
+                <div class="demo-container">
+                    <span class="demo-label">grid-column: span 2</span>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;">
+                        <div class="demo-box" style="height: 50px; grid-column: span 2;">Spans 2 columns</div>
+                        <div class="demo-box" style="height: 50px; background: #f59e0b;">3</div>
+                    </div>
+                </div>
+            `
+        }
+    },
+    {
+        id: 206,
+        title: 'Pseudo-Classes - Interactive States',
+        language: 'css',
+        code: `/* BUTTON INTERACTIVE STATES */
+
+/* Hover - when mouse is over element */
+.demo-btn:hover {
+  background-color: #5568d3;
+  transform: translateY(-2px);
+}
+
+/* Active - when element is being clicked */
+.demo-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Focus - when element is focused (keyboard/click) */
+.demo-btn:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* Focus visible - only when focused via keyboard */
+.demo-btn:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.demo-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #9ca3af;
+}
+
+/* INPUT STATES */
+
+/* Focus on input */
+.demo-input:focus {
+  outline: 2px solid #667eea;
+  border-color: #667eea;
+}
+
+/* Disabled input */
+.demo-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* Checked checkbox */
+.demo-checkbox:checked {
+  background-color: #667eea;
+  border-color: #667eea;
+}
+
+/* Required but empty */
+.demo-input:required:invalid {
+  border-color: #fc5c65;
+}
+
+/* Valid input */
+.demo-input:valid {
+  border-color: #10b981;
+}
+
+/* Read-only input */
+.demo-input:read-only {
+  background-color: #f8f9fa;
+}`,
+        livePreview: {
+            buttons: [
+                {
+                    label: ':hover',
+                    description: 'Hover over me',
+                    baseStyle: {
+                        padding: '12px 24px',
+                        backgroundColor: '#667eea',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '16px',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s',
+                        boxShadow: '0 4px 6px rgba(102, 126, 234, 0.3)'
+                    },
+                    hoverStyle: {
+                        backgroundColor: '#5568d3',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 6px 12px rgba(102, 126, 234, 0.4)'
+                    }
+                },
+                {
+                    label: ':active',
+                    description: 'Click and hold me',
+                    baseStyle: {
+                        padding: '12px 24px',
+                        backgroundColor: '#667eea',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '16px',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'all 0.1s',
+                        boxShadow: '0 4px 6px rgba(102, 126, 234, 0.3)'
+                    },
+                    activeStyle: {
+                        transform: 'translateY(0)',
+                        boxShadow: 'none'
+                    }
+                },
+                {
+                    label: ':focus',
+                    description: 'Click to focus',
+                    baseStyle: {
+                        padding: '12px 24px',
+                        backgroundColor: '#667eea',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '16px',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s'
+                    },
+                    focusStyle: {
+                        outline: '2px solid #667eea',
+                        outlineOffset: '2px'
+                    }
+                },
+                {
+                    label: ':disabled',
+                    description: 'Disabled state',
+                    baseStyle: {
+                        padding: '12px 24px',
+                        backgroundColor: '#9ca3af',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '16px',
+                        fontWeight: '600',
+                        cursor: 'not-allowed',
+                        opacity: 0.5
+                    },
+                    disabled: true
+                },
+                {
+                    label: 'input:focus',
+                    description: '',
+                    type: 'input',
+                    inputType: 'text',
+                    placeholder: 'Click to focus me',
+                    baseStyle: {
+                        padding: '10px 12px',
+                        border: '2px solid #e5e7eb',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                        transition: 'all 0.2s'
+                    },
+                    focusStyle: {
+                        outline: '2px solid #667eea',
+                        borderColor: '#667eea'
+                    }
+                },
+                {
+                    label: 'input:disabled',
+                    description: '',
+                    type: 'input',
+                    inputType: 'text',
+                    placeholder: 'Disabled input',
+                    baseStyle: {
+                        padding: '10px 12px',
+                        border: '2px solid #e5e7eb',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                        backgroundColor: '#f5f5f5',
+                        cursor: 'not-allowed'
+                    },
+                    disabled: true
+                },
+                {
+                    label: 'input:required:invalid',
+                    description: '',
+                    type: 'input',
+                    inputType: 'email',
+                    placeholder: 'Enter email (required)',
+                    required: true,
+                    baseStyle: {
+                        padding: '10px 12px',
+                        border: '2px solid #fc5c65',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                        transition: 'all 0.2s'
+                    }
+                },
+                {
+                    label: 'input:valid',
+                    description: '',
+                    type: 'input',
+                    inputType: 'email',
+                    placeholder: 'Enter valid email',
+                    defaultValue: 'user@example.com',
+                    baseStyle: {
+                        padding: '10px 12px',
+                        border: '2px solid #10b981',
+                        borderRadius: '6px',
+                        fontSize: '14px'
+                    }
+                },
+                {
+                    label: 'input:read-only',
+                    description: '',
+                    type: 'input',
+                    inputType: 'text',
+                    defaultValue: 'Read-only value',
+                    readOnly: true,
+                    baseStyle: {
+                        padding: '10px 12px',
+                        border: '2px solid #e5e7eb',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                        backgroundColor: '#f8f9fa'
+                    }
+                }
+            ]
+        }
+    },
+    {
+        id: 207,
+        title: 'Pseudo-Classes - Structural Selectors',
+        language: 'css',
+        code: `/* CHILD SELECTORS */
+
+/* First child */
+li:first-child {
+  margin-top: 0;
+  font-weight: bold;
+}
+
+/* Last child */
+li:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+/* Only child (no siblings) */
+p:only-child {
+  text-align: center;
+}
+
+/* NTH CHILD - Pattern based */
+
+/* Every odd row (1, 3, 5, 7...) */
+tr:nth-child(odd) {
+  background-color: #f8f9fa;
+}
+
+/* Every even row (2, 4, 6, 8...) */
+tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+/* Specific child (3rd element) */
+li:nth-child(3) {
+  color: red;
+}
+
+/* Every 3rd element (3, 6, 9, 12...) */
+div:nth-child(3n) {
+  background-color: lightblue;
+}
+
+/* Every 3rd starting from 2nd (2, 5, 8, 11...) */
+div:nth-child(3n+2) {
+  background-color: lightgreen;
+}
+
+/* First 3 elements */
+li:nth-child(-n+3) {
+  font-weight: bold;
+}
+
+/* All except first 3 */
+li:nth-child(n+4) {
+  opacity: 0.7;
+}
+
+/* NTH LAST CHILD - Count from end */
+
+/* Last 3 items */
+li:nth-last-child(-n+3) {
+  border-bottom: 2px solid blue;
+}
+
+/* Second to last */
+li:nth-last-child(2) {
+  color: orange;
+}
+
+/* TYPE SELECTORS */
+
+/* First paragraph of its type */
+p:first-of-type {
+  font-size: 1.2em;
+  margin-top: 0;
+}
+
+/* Last heading of its type */
+h2:last-of-type {
+  margin-bottom: 2rem;
+}
+
+/* Every other div of type */
+div:nth-of-type(odd) {
+  background: #f0f0f0;
+}
+
+/* EMPTY & NOT EMPTY */
+
+/* Empty elements */
+div:empty {
+  display: none;
+}
+
+/* Has content (not empty) */
+p:not(:empty) {
+  margin-bottom: 1rem;
+}
+
+/* NOT SELECTOR */
+
+/* All items except last */
+li:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+/* All buttons except disabled */
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+/* All paragraphs except first */
+p:not(:first-child) {
+  margin-top: 1rem;
+}
+
+/* Multiple not conditions */
+.item:not(.active):not(.disabled) {
+  opacity: 0.6;
+}
+
+/* PRACTICAL EXAMPLES */
+
+/* Zebra striping for table */
+tbody tr:nth-child(odd) {
+  background-color: #f8f9fa;
+}
+
+/* Remove margin from first/last in container */
+.container > *:first-child {
+  margin-top: 0;
+}
+
+.container > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Style first 3 and last 3 differently */
+.item:nth-child(-n+3) {
+  border-left: 3px solid blue;
+}
+
+.item:nth-last-child(-n+3) {
+  border-right: 3px solid red;
 }`
     }
 ];

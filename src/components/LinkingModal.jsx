@@ -40,7 +40,7 @@ export default function LinkingModal({
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h3>🔗 Link to Another Item</h3>
-          <button onClick={onClose} className="modal-close">✕</button>
+          <button onClick={onClose} className="modal-close-btn">✕</button>
         </div>
 
         <div className="modal-body">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
 import SnippetCard from './components/SnippetCard';
@@ -6,6 +6,7 @@ import SnippetForm from './components/SnippetForm';
 import FilterBar from './components/FilterBar';
 import EditSnippetModal from './components/EditSnippetModal';
 import LinkingModal from '../../components/LinkingModal';
+import CategoryView from './components/CategoryView';
 import './SnippetRecall.css';
 
 export default function SnippetRecall() {
@@ -14,6 +15,7 @@ export default function SnippetRecall() {
   const [linkingSnippetId, setLinkingSnippetId] = useState(null);
   const [highlightedSnippetId, setHighlightedSnippetId] = useState(null);
   const [expandedSnippetId, setExpandedSnippetId] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const location = useLocation();
   
   const { snippets: snippetsContext, getAllAvailableItems } = useAppContext();
@@ -29,6 +31,21 @@ export default function SnippetRecall() {
     removeLink,
     copyToClipboard,
   } = snippetsContext;
+
+  // Filter snippets by selected category
+  const categoryFilteredSnippets = useMemo(() => {
+    if (!selectedCategory) return filteredSnippets;
+    return filteredSnippets.filter(snippet => snippet.language === selectedCategory);
+  }, [filteredSnippets, selectedCategory]);
+
+  // Count snippets per category
+  const snippetCounts = useMemo(() => {
+    const counts = {};
+    snippets.forEach(snippet => {
+      counts[snippet.language] = (counts[snippet.language] || 0) + 1;
+    });
+    return counts;
+  }, [snippets]);
 
   const handleSaveSnippet = (snippet) => {
     addSnippet(snippet);
@@ -74,53 +91,91 @@ export default function SnippetRecall() {
   const currentSnippet = snippets.find(s => s.id === linkingSnippetId);
   const currentLinks = currentSnippet?.relatedLinks || [];
 
+  const handleSelectCategory = (categoryId) => {
+    setSelectedCategory(categoryId);
+    setShowAddForm(false);
+  };
+
+  const handleBackToCategories = () => {
+    setSelectedCategory(null);
+    setShowAddForm(false);
+    setFilterText('');
+  };
+
   return (
     <div className="snippet-recall">
       <div className="snippet-header">
         <div>
-          <h2>Snippet Recall</h2>
-          <p>Save and quickly recall code snippets</p>
+          <h2>
+            {selectedCategory && (
+              <button onClick={handleBackToCategories} className="back-btn">
+                ← 
+              </button>
+            )}
+            Snippet Recall
+            {selectedCategory && (
+              <span className="category-badge-header">
+                {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}
+              </span>
+            )}
+          </h2>
+          <p>
+            {selectedCategory 
+              ? `Browse ${selectedCategory} code snippets`
+              : 'Save and quickly recall code snippets'}
+          </p>
         </div>
-        <button onClick={() => setShowAddForm(!showAddForm)} className="add-btn">
-          {showAddForm ? 'Cancel' : '+ Add Snippet'}
-        </button>
+        {selectedCategory && (
+          <button onClick={() => setShowAddForm(!showAddForm)} className="add-btn">
+            {showAddForm ? 'Cancel' : '+ Add Snippet'}
+          </button>
+        )}
       </div>
 
-      {showAddForm && (
-        <SnippetForm 
-          onSave={handleSaveSnippet}
-          onCancel={() => setShowAddForm(false)}
+      {!selectedCategory ? (
+        <CategoryView 
+          onSelectCategory={handleSelectCategory}
+          snippetCounts={snippetCounts}
         />
-      )}
+      ) : (
+        <>
+          {showAddForm && (
+            <SnippetForm 
+              onSave={handleSaveSnippet}
+              onCancel={() => setShowAddForm(false)}
+            />
+          )}
 
-      <FilterBar
-        filterText={filterText}
-        onFilterChange={setFilterText}
-        totalCount={snippets.length}
-        filteredCount={filteredSnippets.length}
-      />
-
-      <div className={`snippets-grid ${expandedSnippetId ? 'has-expanded' : ''}`}>
-        {filteredSnippets.map((snippet) => (
-          <SnippetCard
-            key={snippet.id}
-            snippet={snippet}
-            onCopy={copyToClipboard}
-            onEdit={handleEditSnippet}
-            onDelete={removeSnippet}
-            onAddLink={setLinkingSnippetId}
-            onRemoveLink={removeLink}
-            isHighlighted={highlightedSnippetId === snippet.id}
-            isExpanded={expandedSnippetId === snippet.id}
-            onToggleExpand={handleToggleExpand}
+          <FilterBar
+            filterText={filterText}
+            onFilterChange={setFilterText}
+            totalCount={snippets.filter(s => s.language === selectedCategory).length}
+            filteredCount={categoryFilteredSnippets.length}
           />
-        ))}
-      </div>
 
-      {filteredSnippets.length === 0 && (
-        <div className="empty-state">
-          <p>No snippets found</p>
-        </div>
+          <div className={`snippets-grid ${expandedSnippetId ? 'has-expanded' : ''}`}>
+            {categoryFilteredSnippets.map((snippet) => (
+              <SnippetCard
+                key={snippet.id}
+                snippet={snippet}
+                onCopy={copyToClipboard}
+                onEdit={handleEditSnippet}
+                onDelete={removeSnippet}
+                onAddLink={setLinkingSnippetId}
+                onRemoveLink={removeLink}
+                isHighlighted={highlightedSnippetId === snippet.id}
+                isExpanded={expandedSnippetId === snippet.id}
+                onToggleExpand={handleToggleExpand}
+              />
+            ))}
+          </div>
+
+          {categoryFilteredSnippets.length === 0 && (
+            <div className="empty-state">
+              <p>No {selectedCategory} snippets found</p>
+            </div>
+          )}
+        </>
       )}
 
       {editingSnippet && (
