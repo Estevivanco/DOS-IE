@@ -16,6 +16,7 @@ export default function SnippetRecall() {
   const [highlightedSnippetId, setHighlightedSnippetId] = useState(null);
   const [expandedSnippetId, setExpandedSnippetId] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [databaseFilter, setDatabaseFilter] = useState('all');
   const location = useLocation();
   
   const { snippets: snippetsContext, getAllAvailableItems } = useAppContext();
@@ -35,8 +36,17 @@ export default function SnippetRecall() {
   // Filter snippets by selected category
   const categoryFilteredSnippets = useMemo(() => {
     if (!selectedCategory) return filteredSnippets;
-    return filteredSnippets.filter(snippet => snippet.language === selectedCategory);
-  }, [filteredSnippets, selectedCategory]);
+    
+    let result = filteredSnippets.filter(snippet => snippet.language === selectedCategory);
+    
+    // Apply database filter only for database-related categories
+    const databaseCategories = ['mysql', 'postgresql', 'sql'];
+    if (databaseCategories.includes(selectedCategory) && databaseFilter !== 'all') {
+      result = result.filter(snippet => snippet.language === databaseFilter);
+    }
+    
+    return result;
+  }, [filteredSnippets, selectedCategory, databaseFilter]);
 
   // Count snippets per category
   const snippetCounts = useMemo(() => {
@@ -94,6 +104,8 @@ export default function SnippetRecall() {
   const handleSelectCategory = (categoryId) => {
     setSelectedCategory(categoryId);
     setShowAddForm(false);
+    // Reset database filter when changing categories
+    setDatabaseFilter('all');
   };
 
   const handleBackToCategories = () => {
@@ -151,6 +163,9 @@ export default function SnippetRecall() {
             onFilterChange={setFilterText}
             totalCount={snippets.filter(s => s.language === selectedCategory).length}
             filteredCount={categoryFilteredSnippets.length}
+            databaseFilter={databaseFilter}
+            onDatabaseFilterChange={setDatabaseFilter}
+            showDatabaseFilter={['mysql', 'postgresql', 'sql'].includes(selectedCategory)}
           />
 
           <div className={`snippets-grid ${expandedSnippetId ? 'has-expanded' : ''}`}>

@@ -29,6 +29,20 @@ const CATEGORIES = [
     description: 'Database queries and operations',
     color: '#00758f',
   },
+  {
+    id: 'postgresql',
+    name: 'PostgreSQL',
+    icon: '🐘',
+    description: 'PostgreSQL queries and operations',
+    color: '#336791',
+  },
+  {
+    id: 'sql',
+    name: 'SQL',
+    icon: '💾',
+    description: 'General SQL queries',
+    color: '#cc2927',
+  },
 ];
 
 export default function CategoryView({ onSelectCategory, snippetCounts }) {

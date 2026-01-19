@@ -2703,6 +2703,305 @@ tbody tr:nth-child(odd) {
 .item:nth-last-child(-n+3) {
   border-right: 3px solid red;
 }`
+    },
+    {
+        id: 208,
+        title: 'Create and Drop Database',
+        language: 'postgresql',
+        code: `-- Skapa en ny databas
+CREATE DATABASE databasnamn;
+
+-- Radera en databas
+DROP DATABASE databasnamn;`
+    },
+    {
+        id: 209,
+        title: 'Create Table with Common Types',
+        language: 'postgresql',
+        code: `-- Skapa en tabell med vanliga datatyper
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,        -- Automatiskt ökande ID
+    username TEXT UNIQUE NOT NULL, -- Text som måste finnas och vara unik
+    email VARCHAR(100),            -- Text med begränsad längd
+    age INTEGER,                  -- Heltal
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);`
+    },
+    {
+        id: 210,
+        title: 'Alter Table - Add/Drop Column',
+        language: 'postgresql',
+        code: `-- Lägg till en kolumn i efterhand
+ALTER TABLE users ADD COLUMN phone_number TEXT;
+
+-- Radera en hel tabell
+DROP TABLE users;`
+    },
+    {
+        id: 211,
+        title: 'Insert Data - Single and Multiple Rows',
+        language: 'postgresql',
+        code: `-- Lägg till en rad
+INSERT INTO users (username, email, age) 
+VALUES ('Kalle', 'kalle@mail.se', 25);
+
+-- Lägg till flera rader samtidigt
+INSERT INTO users (username, email, age) 
+VALUES 
+    ('Sara', 'sara@mail.se', 30),
+    ('Erik', 'erik@mail.se', 22);`
+    },
+    {
+        id: 212,
+        title: 'Select Queries - Basic',
+        language: 'postgresql',
+        code: `-- Hämta ALLT från en tabell
+SELECT * FROM users;
+
+-- Hämta specifika kolumner
+SELECT username, age FROM users;
+
+-- Filtrera rader (WHERE)
+SELECT * FROM users WHERE age >= 18;`
+    },
+    {
+        id: 213,
+        title: 'Select with ORDER BY and LIMIT',
+        language: 'postgresql',
+        code: `-- Sortera (ORDER BY) - ASC (stigande) eller DESC (fallande)
+SELECT * FROM users ORDER BY age DESC;
+
+-- Begränsa antal svar
+SELECT * FROM users LIMIT 10;`
+    },
+    {
+        id: 214,
+        title: 'Update and Delete Data',
+        language: 'postgresql',
+        code: `-- Ändra värden för en specifik rad
+UPDATE users 
+SET age = 26 
+WHERE username = 'Kalle';
+
+-- Radera specifika rader
+DELETE FROM users 
+WHERE id = 1;
+
+-- VIKTIGT: Använd alltid WHERE för att inte påverka hela tabellen!`
+    },
+    {
+        id: 215,
+        title: 'Aggregation Functions',
+        language: 'postgresql',
+        code: `-- Räkna antal rader
+SELECT COUNT(*) FROM users;
+
+-- Räkna ut medelåldern
+SELECT AVG(age) FROM users;`
+    },
+    {
+        id: 216,
+        title: 'GROUP BY - Gruppera Data',
+        language: 'postgresql',
+        code: `-- Gruppera data (t.ex. hur många användare per ålder)
+SELECT age, COUNT(*) 
+FROM users 
+GROUP BY age;`
+    },
+    {
+        id: 217,
+        title: 'JOIN Tables',
+        language: 'postgresql',
+        code: `-- Koppla ihop tabeller (t.ex. users och posts) 
+-- baserat på en gemensam kolumn
+SELECT users.username, posts.title
+FROM users
+JOIN posts ON users.id = posts.user_id;`
+    },
+    {
+        id: 218,
+        title: 'PostgreSQL Data Types & Constraints Cheat Sheet',
+        language: 'postgresql',
+        code: `-- ===== COMMON DATA TYPES =====
+
+-- VARCHAR(n) - Text with max length
+-- Use for: names, emails, usernames, short text
+email VARCHAR(255) UNIQUE NOT NULL
+
+-- TEXT - Unlimited length text  
+-- Use for: descriptions, articles, long content
+description TEXT
+
+-- INT / INTEGER - Whole numbers (-2 billion to +2 billion)
+-- Use for: counts, quantities, regular IDs
+age INT CHECK (age >= 0)
+quantity INT DEFAULT 0
+
+-- BIGINT - Very large whole numbers
+-- Use for: large IDs, big counters, unix timestamps
+user_count BIGINT
+
+-- SERIAL - Auto-incrementing integer (1, 2, 3, ...)
+-- Use for: primary key IDs (most common)
+id SERIAL PRIMARY KEY
+
+-- BIGSERIAL - Auto-incrementing big integer
+-- Use for: primary keys in very large tables
+id BIGSERIAL PRIMARY KEY
+
+-- DECIMAL(precision, scale) / NUMERIC - Exact decimal numbers
+-- Use for: money, prices, precise calculations
+price DECIMAL(10, 2)  -- Up to 99999999.99
+balance NUMERIC(15, 2) DEFAULT 0.00
+
+-- REAL / FLOAT - Approximate decimal numbers
+-- Use for: scientific data, measurements (not money!)
+temperature REAL
+coordinates FLOAT
+
+-- BOOLEAN - True/false values
+-- Use for: flags, status checks
+is_active BOOLEAN DEFAULT true
+is_deleted BOOLEAN DEFAULT false
+email_verified BOOLEAN
+
+-- DATE - Date only (YYYY-MM-DD)
+-- Use for: birthdays, deadlines, start dates
+birth_date DATE
+deadline DATE
+
+-- TIME - Time only (HH:MM:SS)
+-- Use for: schedules, opening hours
+opening_time TIME
+duration TIME
+
+-- TIMESTAMP - Date + time (no timezone)
+-- Use for: created_at, updated_at in single timezone apps
+created_at TIMESTAMP DEFAULT NOW()
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+-- TIMESTAMPTZ - Date + time WITH timezone
+-- Use for: global apps, accurate time tracking across timezones
+created_at TIMESTAMPTZ DEFAULT NOW()
+
+-- JSON - JSON data (stored as text)
+-- JSONB - Binary JSON (faster, recommended)
+-- Use for: flexible schemas, metadata, settings
+metadata JSONB
+settings JSON
+
+-- ARRAY - Array of any type
+-- Use for: tags, lists, multiple values
+tags TEXT[]
+numbers INT[]
+
+-- UUID - Universally Unique Identifier
+-- Use for: distributed systems, public IDs, security
+public_id UUID DEFAULT gen_random_uuid()
+
+
+-- ===== CONSTRAINTS - Data Rules =====
+
+-- PRIMARY KEY - Unique identifier, cannot be NULL
+-- Each table should have ONE
+id SERIAL PRIMARY KEY
+
+-- UNIQUE - Value must be unique across all rows
+-- Use for: emails, usernames, unique codes
+email VARCHAR(255) UNIQUE NOT NULL
+username VARCHAR(50) UNIQUE
+
+-- NOT NULL - Field must have a value
+-- Use for: required fields
+name VARCHAR(100) NOT NULL
+email VARCHAR(255) NOT NULL
+
+-- DEFAULT - Sets value if none provided
+-- Use for: timestamps, status flags, default values
+status VARCHAR(20) DEFAULT 'pending'
+created_at TIMESTAMP DEFAULT NOW()
+is_active BOOLEAN DEFAULT true
+balance DECIMAL(10,2) DEFAULT 0.00
+
+-- CHECK - Custom validation rule
+-- Use for: value ranges, allowed values
+age INT CHECK (age >= 0 AND age <= 150)
+price DECIMAL(10,2) CHECK (price > 0)
+status VARCHAR(20) CHECK (status IN ('active', 'pending', 'deleted'))
+
+-- REFERENCES - Foreign key (links to another table)
+-- Use for: relationships between tables
+user_id INT REFERENCES users(id)
+category_id INT REFERENCES categories(id) ON DELETE CASCADE
+
+
+-- ===== REAL WORLD EXAMPLES =====
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,                    -- Auto-increment ID
+  email VARCHAR(255) UNIQUE NOT NULL,       -- Required, unique email
+  username VARCHAR(50) UNIQUE NOT NULL,     -- Required, unique username
+  password_hash VARCHAR(255) NOT NULL,      -- Required password
+  full_name TEXT,                           -- Optional full name
+  age INT CHECK (age >= 13 AND age <= 120), -- Age validation
+  balance DECIMAL(10,2) DEFAULT 0.00,       -- Money with 2 decimals
+  is_active BOOLEAN DEFAULT true,           -- Active status flag
+  role VARCHAR(20) DEFAULT 'user',          -- Default role
+  settings JSONB,                           -- Flexible settings
+  tags TEXT[],                              -- Array of tags
+  created_at TIMESTAMPTZ DEFAULT NOW(),     -- Auto timestamp
+  updated_at TIMESTAMPTZ DEFAULT NOW()      -- Auto timestamp
+);
+
+CREATE TABLE posts (
+  id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(id) ON DELETE CASCADE,  -- Foreign key
+  title VARCHAR(200) NOT NULL,
+  content TEXT NOT NULL,
+  status VARCHAR(20) DEFAULT 'draft' 
+    CHECK (status IN ('draft', 'published', 'archived')),
+  view_count INT DEFAULT 0 CHECK (view_count >= 0),
+  metadata JSONB,
+  published_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE comments (
+  id SERIAL PRIMARY KEY,
+  post_id INT REFERENCES posts(id) ON DELETE CASCADE,
+  user_id INT REFERENCES users(id) ON DELETE SET NULL,
+  content TEXT NOT NULL,
+  likes INT DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+
+-- ===== QUICK REFERENCE TABLE =====
+/*
+TYPE          | SIZE    | RANGE/INFO                | USE FOR
+------------- | ------- | ------------------------- | -----------------
+VARCHAR(n)    | Variable| Up to n characters        | Names, emails
+TEXT          | Variable| Unlimited                 | Long content
+INT           | 4 bytes | -2B to +2B                | Regular numbers
+BIGINT        | 8 bytes | Very large numbers        | Big IDs, counts
+SERIAL        | 4 bytes | Auto 1,2,3...             | Primary keys
+DECIMAL(p,s)  | Variable| Exact decimals            | Money, prices
+BOOLEAN       | 1 byte  | true/false                | Flags, status
+TIMESTAMP     | 8 bytes | Date + time               | Created dates
+TIMESTAMPTZ   | 8 bytes | Date + time + timezone    | Global apps
+JSONB         | Variable| Binary JSON               | Flexible data
+TEXT[]        | Variable| Array of text             | Tags, lists
+UUID          | 16 bytes| Unique identifier         | Public IDs
+
+CONSTRAINT    | PURPOSE
+------------- | -----------------------------------------------
+PRIMARY KEY   | Unique identifier, not null
+UNIQUE        | No duplicate values allowed
+NOT NULL      | Value is required
+DEFAULT x     | Use x if no value provided
+CHECK (...)   | Custom validation rule
+REFERENCES    | Link to another table (foreign key)
+*/`
     }
 ];
 

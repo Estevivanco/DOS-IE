@@ -143,6 +143,27 @@
   border-color: #667eea;
 }
 
+.database-filter-select {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color 0.2s;
+  min-width: 180px;
+}
+
+.database-filter-select:hover {
+  border-color: #667eea;
+}
+
+.database-filter-select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
 .filter-count {
   color: #6b7280;
   font-size: 0.9rem;

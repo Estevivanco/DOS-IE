@@ -15,9 +15,11 @@ export default function GitCommands() {
     filteredCommands,
     filterText,
     filterCategory,
+    filterCommandCategory,
     showDangerous,
     setFilterText,
     setFilterCategory,
+    setFilterCommandCategory,
     setShowDangerous,
     removeCommand,
     copyToClipboard,
@@ -37,8 +39,8 @@ export default function GitCommands() {
     <div className="git-commands">
       <div className="git-header">
         <div>
-          <h2>⚡ Git Commands</h2>
-          <p>Never google the same git command twice</p>
+          <h2>⚡ Commands</h2>
+          <p>Git, Brew, PostgreSQL - Never google the same command twice</p>
         </div>
         <button onClick={() => setShowAddForm(!showAddForm)} className="add-btn">
           {showAddForm ? 'Cancel' : '+ Add Command'}
@@ -48,9 +50,11 @@ export default function GitCommands() {
       <CommandFilterBar
         filterText={filterText}
         filterCategory={filterCategory}
+        filterCommandCategory={filterCommandCategory}
         showDangerous={showDangerous}
         onFilterTextChange={setFilterText}
         onFilterCategoryChange={setFilterCategory}
+        onFilterCommandCategoryChange={setFilterCommandCategory}
         onShowDangerousChange={setShowDangerous}
         totalCount={commands.length}
         filteredCount={filteredCommands.length}

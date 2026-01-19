@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 export default function CommandFilterBar({ 
   filterText, 
   filterCategory,
+  filterCommandCategory,
   showDangerous,
   onFilterTextChange, 
   onFilterCategoryChange,
+  onFilterCommandCategoryChange,
   onShowDangerousChange,
   totalCount, 
   filteredCount 
@@ -21,6 +23,16 @@ export default function CommandFilterBar({
       />
       
       <select
+        value={filterCommandCategory}
+        onChange={(e) => onFilterCommandCategoryChange(e.target.value)}
+        className="filter-select"
+      >
+        <option value="all">All Tools</option>
+        <option value="Git">Git</option>
+        <option value="Brew">Brew/PostgreSQL</option>
+      </select>
+      
+      <select
         value={filterCategory}
         onChange={(e) => onFilterCategoryChange(e.target.value)}
         className="filter-select"
@@ -30,6 +42,7 @@ export default function CommandFilterBar({
         <option value="Info">Info</option>
         <option value="Cleanup">Cleanup</option>
         <option value="Advanced">Advanced</option>
+        <option value="Setup">Setup</option>
       </select>
 
       <label className="danger-toggle">
@@ -51,9 +64,11 @@ export default function CommandFilterBar({
 CommandFilterBar.propTypes = {
   filterText: PropTypes.string.isRequired,
   filterCategory: PropTypes.string.isRequired,
+  filterCommandCategory: PropTypes.string.isRequired,
   showDangerous: PropTypes.bool.isRequired,
   onFilterTextChange: PropTypes.func.isRequired,
   onFilterCategoryChange: PropTypes.func.isRequired,
+  onFilterCommandCategoryChange: PropTypes.func.isRequired,
   onShowDangerousChange: PropTypes.func.isRequired,
   totalCount: PropTypes.number.isRequired,
   filteredCount: PropTypes.number.isRequired,

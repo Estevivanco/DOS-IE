@@ -28,9 +28,9 @@ export default function Home() {
       icon: '💡'
     },
     {
-      name: 'Git Commands',
-      path: '/git',
-      description: 'Never google the same git command twice',
+      name: 'Commands',
+      path: '/commands',
+      description: 'Git, Brew, PostgreSQL - Never google the same command twice',
       icon: '⚡'
     }
   ];

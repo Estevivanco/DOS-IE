@@ -15,6 +15,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Complete workflow to commit and push your changes',
     category: 'Workflows',
+    commandCategory: 'Git',
     useCase: 'Standard workflow after making changes',
     dangerous: false,
     isWorkflow: true,
@@ -38,6 +39,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Get latest changes from remote and update your branch',
     category: 'Workflows',
+    commandCategory: 'Git',
     useCase: 'Before starting work or when others have pushed changes',
     dangerous: false,
     isWorkflow: true,
@@ -65,6 +67,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Pull latest develop and rebase your branch on top',
     category: 'Workflows',
+    commandCategory: 'Git',
     useCase: 'Keep your feature branch synchronized with main development',
     dangerous: true,
     isWorkflow: true,
@@ -85,6 +88,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Start new feature branch from latest develop',
     category: 'Workflows',
+    commandCategory: 'Git',
     useCase: 'Beginning work on a new feature',
     dangerous: false,
     isWorkflow: true,
@@ -107,6 +111,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Resolve and complete merge when conflicts occur',
     category: 'Workflows',
+    commandCategory: 'Git',
     useCase: 'After merge or rebase conflicts appear',
     dangerous: false,
     isWorkflow: true,
@@ -125,6 +130,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Add forgotten files to last commit',
     category: 'Workflows',
+    commandCategory: 'Git',
     useCase: 'Forgot to include files in last commit',
     dangerous: true,
     isWorkflow: true,
@@ -147,6 +153,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Undo last commit but keep the changes to recommit',
     category: 'Workflows',
+    commandCategory: 'Git',
     useCase: 'Commit was wrong but changes are good',
     dangerous: false,
     isWorkflow: true,
@@ -169,6 +176,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Save current work, switch branches, then restore',
     category: 'Workflows',
+    commandCategory: 'Git',
     useCase: 'Need to switch branches but have uncommitted changes',
     dangerous: false,
     isWorkflow: true,
@@ -193,6 +201,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Reapply your commits on top of latest develop',
     category: 'Workflows',
+    commandCategory: 'Git',
     useCase: 'Before creating PR to have clean, linear history',
     dangerous: true,
     isWorkflow: true,
@@ -211,6 +220,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Check current state of your branch',
     category: 'Info',
+    commandCategory: 'Git',
     useCase: 'Understanding what changed and branch status',
     dangerous: false,
     isWorkflow: true,
@@ -229,6 +239,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Clean up merged branch locally and remotely',
     category: 'Cleanup',
+    commandCategory: 'Git',
     useCase: 'After PR is merged and branch is no longer needed',
     dangerous: true,
     isWorkflow: true,
@@ -251,6 +262,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Apply specific commit from another branch',
     category: 'Advanced',
+    commandCategory: 'Git',
     useCase: 'Need one specific commit without merging entire branch',
     dangerous: false,
     isWorkflow: true,
@@ -273,6 +285,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Setup new Vite React project with routing',
     category: 'Setup',
+    commandCategory: 'Git',
     useCase: 'Starting a new React project from scratch',
     dangerous: false,
     isWorkflow: true,
@@ -299,6 +312,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Initialize local repo and push to GitHub',
     category: 'Setup',
+    commandCategory: 'Git',
     useCase: 'Starting version control for new project',
     dangerous: false,
     isWorkflow: true,
@@ -321,6 +335,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Merge feature branch into main and push',
     category: 'Workflows',
+    commandCategory: 'Git',
     useCase: 'Merging completed feature into main branch',
     dangerous: true,
     isWorkflow: true,
@@ -339,6 +354,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Pull latest changes from remote main branch',
     category: 'Workflows',
+    commandCategory: 'Git',
     useCase: 'Sync your local main with remote before starting new work',
     dangerous: false,
     isWorkflow: true,
@@ -355,6 +371,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Download existing repository from GitHub',
     category: 'Setup',
+    commandCategory: 'Git',
     useCase: 'Starting work on existing project or contributing to open source',
     dangerous: false,
     isWorkflow: true,
@@ -373,6 +390,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Throw away all local changes and return to clean state',
     category: 'Cleanup',
+    commandCategory: 'Git',
     useCase: 'When you want to completely start over from last commit',
     dangerous: true,
     isWorkflow: true,
@@ -389,6 +407,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Discard changes in specific file only',
     category: 'Workflows',
+    commandCategory: 'Git',
     useCase: 'Made mistakes in one file but want to keep changes in others',
     dangerous: false,
     isWorkflow: true,
@@ -409,6 +428,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Safely undo a commit that has been pushed',
     category: 'Advanced',
+    commandCategory: 'Git',
     useCase: 'Need to undo changes that are already in remote/shared history',
     dangerous: false,
     isWorkflow: true,
@@ -431,6 +451,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Combine multiple commits into one clean commit',
     category: 'Advanced',
+    commandCategory: 'Git',
     useCase: 'Clean up messy commit history before creating pull request',
     dangerous: true,
     isWorkflow: true,
@@ -451,6 +472,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Recover commits that were accidentally deleted or lost',
     category: 'Advanced',
+    commandCategory: 'Git',
     useCase: 'Accidentally reset/deleted commits and need them back',
     dangerous: false,
     isWorkflow: true,
@@ -469,6 +491,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Mark specific commit as a release version',
     category: 'Advanced',
+    commandCategory: 'Git',
     useCase: 'Creating versioned releases for production deployments',
     dangerous: false,
     isWorkflow: true,
@@ -491,6 +514,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'Sync your fork with original repository',
     category: 'Advanced',
+    commandCategory: 'Git',
     useCase: 'Contributing to open source - keep your fork up to date',
     dangerous: false,
     isWorkflow: true,
@@ -509,6 +533,7 @@ const INITIAL_COMMANDS = [
     ],
     description: 'View differences between two branches',
     category: 'Info',
+    commandCategory: 'Git',
     useCase: 'Understanding what changed between branches before merging',
     dangerous: false,
     isWorkflow: true,
@@ -527,10 +552,328 @@ const INITIAL_COMMANDS = [
     ],
     description: 'View all local and remote branches',
     category: 'Info',
+    commandCategory: 'Git',
     useCase: 'See what branches exist and which one you are on',
     dangerous: false,
     isWorkflow: true,
     notes: 'Current branch marked with *. -a shows remote branches (origin/branch-name). -v shows last commit on each branch. Helpful to see what branches exist before switching or to find old feature branches.'
+  },
+  
+  // BREW / POSTGRESQL COMMANDS
+  {
+    id: 27,
+    title: 'Install PostgreSQL',
+    commands: [
+      '// Install PostgreSQL using Homebrew',
+      'brew install postgresql@16',
+      '// Start PostgreSQL service',
+      'brew services start postgresql@16',
+      '// Verify installation',
+      'psql --version'
+    ],
+    description: 'Install and start PostgreSQL on macOS',
+    category: 'Setup',
+    commandCategory: 'Brew',
+    useCase: 'First time setup of PostgreSQL on your Mac',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'Replace @16 with desired version. After installation, PostgreSQL will auto-start on system boot.'
+  },
+  {
+    id: 28,
+    title: 'Start/Stop PostgreSQL',
+    commands: [
+      '// Start PostgreSQL service',
+      'brew services start postgresql@16',
+      '// Stop PostgreSQL service',
+      'brew services stop postgresql@16',
+      '// Restart PostgreSQL service',
+      'brew services restart postgresql@16',
+      '// Check service status',
+      'brew services list | grep postgresql'
+    ],
+    description: 'Control PostgreSQL service on macOS',
+    category: 'Workflows',
+    commandCategory: 'Brew',
+    useCase: 'Starting, stopping, or restarting your local database',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'PostgreSQL must be running before you can connect to it. Check status to verify it\'s running.'
+  },
+  {
+    id: 29,
+    title: 'Create Database and User',
+    commands: [
+      '// Connect to PostgreSQL as default user',
+      'psql postgres',
+      '// Create new database',
+      'CREATE DATABASE mydb;',
+      '// Create new user with password',
+      'CREATE USER myuser WITH PASSWORD \'mypassword\';',
+      '// Grant all privileges on database to user',
+      'GRANT ALL PRIVILEGES ON DATABASE mydb TO myuser;',
+      '// Exit psql',
+      '\\q'
+    ],
+    description: 'Create a new database and user with permissions',
+    category: 'Setup',
+    commandCategory: 'Brew',
+    useCase: 'Setting up a new project database with dedicated user',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'Replace mydb, myuser, and mypassword with your values. SQL commands end with semicolon. \\q exits psql.'
+  },
+  {
+    id: 30,
+    title: 'Connect to PostgreSQL',
+    commands: [
+      '// Connect to specific database',
+      'psql -d database_name',
+      '// Connect as specific user',
+      'psql -U username -d database_name',
+      '// Connect to remote PostgreSQL',
+      'psql -h hostname -U username -d database_name',
+      '// Connect with all options',
+      'psql -h localhost -p 5432 -U myuser -d mydb'
+    ],
+    description: 'Different ways to connect to PostgreSQL',
+    category: 'Workflows',
+    commandCategory: 'Brew',
+    useCase: 'Connecting to local or remote PostgreSQL databases',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'Default port is 5432. -h for host, -p for port, -U for user, -d for database. You\'ll be prompted for password.'
+  },
+  {
+    id: 31,
+    title: 'Basic PostgreSQL Navigation',
+    commands: [
+      '// List all databases',
+      '\\l',
+      '// Connect to a database',
+      '\\c database_name',
+      '// List all tables in current database',
+      '\\dt',
+      '// Describe table structure',
+      '\\d table_name',
+      '// List all users/roles',
+      '\\du',
+      '// Show current connection info',
+      '\\conninfo',
+      '// Exit psql',
+      '\\q'
+    ],
+    description: 'Essential psql commands for navigating databases',
+    category: 'Info',
+    commandCategory: 'Brew',
+    useCase: 'Exploring databases, tables, and structure in psql',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'Backslash commands (\\) are psql meta-commands. They don\'t need semicolons. Use \\? for all commands.'
+  },
+  {
+    id: 32,
+    title: 'Basic SQL Queries',
+    commands: [
+      '// Select all rows from table',
+      'SELECT * FROM table_name;',
+      '// Select specific columns',
+      'SELECT column1, column2 FROM table_name;',
+      '// Filter with WHERE clause',
+      'SELECT * FROM table_name WHERE condition;',
+      '// Order results',
+      'SELECT * FROM table_name ORDER BY column_name DESC;',
+      '// Limit results',
+      'SELECT * FROM table_name LIMIT 10;'
+    ],
+    description: 'Common SQL SELECT queries for data retrieval',
+    category: 'Workflows',
+    commandCategory: 'Brew',
+    useCase: 'Querying and viewing data in your tables',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'SQL commands must end with semicolon. Use \\x for expanded display of wide tables.'
+  },
+  {
+    id: 33,
+    title: 'Create and Modify Tables',
+    commands: [
+      '// Create new table',
+      'CREATE TABLE users (',
+      '  id SERIAL PRIMARY KEY,',
+      '  name VARCHAR(100),',
+      '  email VARCHAR(100) UNIQUE,',
+      '  created_at TIMESTAMP DEFAULT NOW()',
+      ');',
+      '// Add column to existing table',
+      'ALTER TABLE users ADD COLUMN age INTEGER;',
+      '// Drop column',
+      'ALTER TABLE users DROP COLUMN age;',
+      '// Drop entire table',
+      'DROP TABLE table_name;'
+    ],
+    description: 'Create and modify database tables',
+    category: 'Workflows',
+    commandCategory: 'Brew',
+    useCase: 'Setting up or modifying your database schema',
+    dangerous: true,
+    isWorkflow: true,
+    notes: 'SERIAL auto-increments. PRIMARY KEY ensures uniqueness. UNIQUE prevents duplicates. DROP is permanent!'
+  },
+  {
+    id: 34,
+    title: 'Insert, Update, Delete Data',
+    commands: [
+      '// Insert new row',
+      'INSERT INTO users (name, email) VALUES (\'John\', \'john@example.com\');',
+      '// Insert multiple rows',
+      'INSERT INTO users (name, email) VALUES ',
+      '  (\'Jane\', \'jane@example.com\'),',
+      '  (\'Bob\', \'bob@example.com\');',
+      '// Update existing rows',
+      'UPDATE users SET name = \'Johnny\' WHERE id = 1;',
+      '// Delete specific rows',
+      'DELETE FROM users WHERE id = 1;',
+      '// Delete all rows (DANGEROUS!)',
+      'DELETE FROM users;'
+    ],
+    description: 'Modify data in your tables',
+    category: 'Workflows',
+    commandCategory: 'Brew',
+    useCase: 'Adding, updating, or removing data',
+    dangerous: true,
+    isWorkflow: true,
+    notes: 'ALWAYS use WHERE clause with UPDATE and DELETE unless you want to affect ALL rows! Test with SELECT first.'
+  },
+  {
+    id: 35,
+    title: 'Backup and Restore Database',
+    commands: [
+      '// Backup database to file',
+      'pg_dump -U username database_name > backup.sql',
+      '// Backup with compression',
+      'pg_dump -U username -Fc database_name > backup.dump',
+      '// Restore from SQL file',
+      'psql -U username database_name < backup.sql',
+      '// Restore from compressed dump',
+      'pg_restore -U username -d database_name backup.dump'
+    ],
+    description: 'Backup and restore PostgreSQL databases',
+    category: 'Advanced',
+    commandCategory: 'Brew',
+    useCase: 'Creating backups before major changes or migrating data',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'pg_dump exports, psql/pg_restore imports. -Fc creates compressed custom format. Always backup before major changes!'
+  },
+  {
+    id: 36,
+    title: 'Drop and Recreate Database',
+    commands: [
+      '// Connect as default user',
+      'psql postgres',
+      '// Drop existing database (DANGEROUS!)',
+      'DROP DATABASE database_name;',
+      '// Create fresh database',
+      'CREATE DATABASE database_name;',
+      '// Grant privileges to user',
+      'GRANT ALL PRIVILEGES ON DATABASE database_name TO username;',
+      '// Exit psql',
+      '\\q'
+    ],
+    description: 'Completely remove and recreate a database',
+    category: 'Cleanup',
+    commandCategory: 'Brew',
+    useCase: 'Resetting a development database or starting fresh',
+    dangerous: true,
+    isWorkflow: true,
+    notes: 'DROP DATABASE permanently deletes everything! Backup first. Cannot drop if users are connected.'
+  },
+  {
+    id: 37,
+    title: 'View Database Size and Stats',
+    commands: [
+      '// Show size of all databases',
+      'SELECT datname, pg_size_pretty(pg_database_size(datname)) FROM pg_database;',
+      '// Show size of current database tables',
+      'SELECT tablename, pg_size_pretty(pg_total_relation_size(tablename::text)) FROM pg_tables WHERE schemaname = \'public\';',
+      '// Count rows in table',
+      'SELECT COUNT(*) FROM table_name;',
+      '// Show active connections',
+      'SELECT * FROM pg_stat_activity;'
+    ],
+    description: 'Check database and table sizes and statistics',
+    category: 'Info',
+    commandCategory: 'Brew',
+    useCase: 'Monitoring database size and performance',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'pg_size_pretty converts bytes to readable format (MB, GB). Useful for monitoring disk usage.'
+  },
+  {
+    id: 38,
+    title: 'Uninstall PostgreSQL',
+    commands: [
+      '// Stop PostgreSQL service',
+      'brew services stop postgresql@16',
+      '// Uninstall PostgreSQL',
+      'brew uninstall postgresql@16',
+      '// Remove data directory (DANGEROUS!)',
+      'rm -rf /opt/homebrew/var/postgresql@16',
+      '// Or for Intel Macs',
+      '# rm -rf /usr/local/var/postgresql@16'
+    ],
+    description: 'Completely remove PostgreSQL from your Mac',
+    category: 'Cleanup',
+    commandCategory: 'Brew',
+    useCase: 'Cleaning up PostgreSQL installation',
+    dangerous: true,
+    isWorkflow: true,
+    notes: 'This PERMANENTLY deletes all databases and data! Backup first. Data location varies by Mac architecture.'
+  },
+  {
+    id: 39,
+    title: 'Homebrew Update and Upgrade',
+    commands: [
+      '// Update Homebrew itself',
+      'brew update',
+      '// See what can be upgraded',
+      'brew outdated',
+      '// Upgrade all packages',
+      'brew upgrade',
+      '// Upgrade specific package',
+      'brew upgrade postgresql@16',
+      '// Clean up old versions',
+      'brew cleanup'
+    ],
+    description: 'Keep Homebrew and packages up to date',
+    category: 'Workflows',
+    commandCategory: 'Brew',
+    useCase: 'Maintaining your Homebrew installation',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'brew update updates Homebrew. brew upgrade updates packages. brew cleanup removes old versions to save space.'
+  },
+  {
+    id: 40,
+    title: 'Homebrew Search and Info',
+    commands: [
+      '// Search for packages',
+      'brew search postgres',
+      '// Get info about package',
+      'brew info postgresql@16',
+      '// List installed packages',
+      'brew list',
+      '// Check for issues',
+      'brew doctor'
+    ],
+    description: 'Find and get information about Homebrew packages',
+    category: 'Info',
+    commandCategory: 'Brew',
+    useCase: 'Discovering packages and troubleshooting',
+    dangerous: false,
+    isWorkflow: true,
+    notes: 'brew doctor diagnoses common issues. brew info shows version, dependencies, and installation notes.'
   }
 ];
 
@@ -538,6 +881,7 @@ export function useGitCommands() {
   const [commands, setCommands] = useState(INITIAL_COMMANDS);
   const [filterText, setFilterText] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
+  const [filterCommandCategory, setFilterCommandCategory] = useState('all');
   const [showDangerous, setShowDangerous] = useState(true);
 
   const filteredCommands = useMemo(() => {
@@ -552,11 +896,12 @@ export function useGitCommands() {
         cmd.description.toLowerCase().includes(filterText.toLowerCase());
       
       const matchesCategory = filterCategory === 'all' || cmd.category === filterCategory;
+      const matchesCommandCategory = filterCommandCategory === 'all' || cmd.commandCategory === filterCommandCategory;
       const matchesDangerous = showDangerous || !cmd.dangerous;
       
-      return matchesText && matchesCategory && matchesDangerous;
+      return matchesText && matchesCategory && matchesCommandCategory && matchesDangerous;
     });
-  }, [commands, filterText, filterCategory, showDangerous]);
+  }, [commands, filterText, filterCategory, filterCommandCategory, showDangerous]);
 
   const addCommand = (command) => {
     const newCommand = { ...command, id: Date.now() };
@@ -609,9 +954,11 @@ export function useGitCommands() {
     filteredCommands,
     filterText,
     filterCategory,
+    filterCommandCategory,
     showDangerous,
     setFilterText,
     setFilterCategory,
+    setFilterCommandCategory,
     setShowDangerous,
     addCommand,
     removeCommand,

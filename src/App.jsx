@@ -22,7 +22,7 @@ function App() {
               <Route path="bugs" element={<BugMemories />} />
               <Route path="bootstrap" element={<ProjectBootstrap />} />
               <Route path="decisions" element={<DecisionLog />} />
-              <Route path="git" element={<GitCommands />} />
+              <Route path="commands" element={<GitCommands />} />
             </Route>
           </Routes>
         </BrowserRouter>

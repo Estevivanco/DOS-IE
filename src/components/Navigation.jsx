@@ -12,7 +12,7 @@ export default function Navigation() {
     { name: 'Bugs', path: '/bugs', icon: '🐛' },
     { name: 'Bootstrap', path: '/bootstrap', icon: '🚀' },
     { name: 'Decisions', path: '/decisions', icon: '💡' },
-    { name: 'Git', path: '/git', icon: '⚡' }
+    { name: 'Commands', path: '/commands', icon: '⚡' }
   ];
 
   return (
