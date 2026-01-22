@@ -2749,7 +2749,23 @@ VALUES ('Kalle', 'kalle@mail.se', 25);
 INSERT INTO users (username, email, age) 
 VALUES 
     ('Sara', 'sara@mail.se', 30),
-    ('Erik', 'erik@mail.se', 22);`
+    ('Erik', 'erik@mail.se', 22);
+
+-- Lägg till data baserat på en SELECT-fråga
+-- Använd för att skapa data från befintliga tabeller
+INSERT INTO orders (customer_id, order_date)
+SELECT id, '2024-01-15'
+FROM customers
+WHERE name = 'Alice';
+
+-- Lägg till data i länktabell (junction table) med JOIN
+-- Exempel: orders_products (order_id, product_id)
+INSERT INTO order_items (order_id, product_id, quantity)
+SELECT o.id, p.id, 1
+FROM orders o
+JOIN customers c ON c.id = o.customer_id
+JOIN products p ON p.name = 'Laptop'
+WHERE c.name = 'Alice';`
     },
     {
         id: 212,
@@ -2793,11 +2809,33 @@ WHERE id = 1;
         id: 215,
         title: 'Aggregation Functions',
         language: 'postgresql',
-        code: `-- Räkna antal rader
+        code: `-- COUNT - Räkna antal rader
 SELECT COUNT(*) FROM users;
+SELECT COUNT(email) FROM users; -- Räkna icke-NULL värden
 
--- Räkna ut medelåldern
-SELECT AVG(age) FROM users;`
+-- AVG - Räkna ut medelvärde
+SELECT AVG(age) FROM users;
+SELECT AVG(price) FROM products;
+
+-- SUM - Summera värden
+SELECT SUM(quantity) FROM orders;
+SELECT SUM(price * quantity) FROM order_items;
+
+-- MIN - Hitta minsta värde
+SELECT MIN(age) FROM users;
+SELECT MIN(price) FROM products;
+
+-- MAX - Hitta största värde
+SELECT MAX(age) FROM users;
+SELECT MAX(created_at) FROM posts;
+
+-- Kombinera flera aggregeringsfunktioner
+SELECT 
+    COUNT(*) as total_users,
+    AVG(age) as average_age,
+    MIN(age) as youngest,
+    MAX(age) as oldest
+FROM users;`
     },
     {
         id: 216,
@@ -2812,14 +2850,83 @@ GROUP BY age;`
         id: 217,
         title: 'JOIN Tables',
         language: 'postgresql',
-        code: `-- Koppla ihop tabeller (t.ex. users och posts) 
--- baserat på en gemensam kolumn
+        code: `-- ===== SÅ HÄR TÄNKER DU NÄR DU JOINNAR =====
+-- 1. Vad vill jag visa? (username + posts)
+-- 2. Vilken tabell har det jag MEST vill ha? → FROM users
+-- 3. Vilken tabell ska jag koppla till? → JOIN posts
+-- 4. Hur kopplas de? Hitta foreign key! 
+--    posts har "user_id" som pekar på users.id
+--    → ON users.id = posts.user_id
+
+-- TUMREGEL: 
+-- FROM [huvud-tabell]
+-- JOIN [relaterad-tabell] ON [huvud].id = [relaterad].[foreign_key]
+
+-- ===== INNER JOIN =====
+-- Hämta bara rader som matchar i BÅDA tabellerna
+-- Exempel: Användare som HAR skrivit posts
+SELECT users.username, posts.title, posts.created_at
+FROM users
+INNER JOIN posts ON users.id = posts.user_id;
+
+-- ===== LEFT JOIN =====
+-- Hämta ALLA från vänster tabell + matchningar från höger
+-- Exempel: ALLA användare, även de utan posts (visar NULL)
 SELECT users.username, posts.title
 FROM users
-JOIN posts ON users.id = posts.user_id;`
+LEFT JOIN posts ON users.id = posts.user_id;
+
+-- ===== PRAKTISKT EXEMPEL =====
+-- Användare och deras antal posts (inkl. de med 0 posts)
+SELECT 
+    users.username,
+    COUNT(posts.id) as post_count
+FROM users
+LEFT JOIN posts ON users.id = posts.user_id
+GROUP BY users.id, users.username;`
     },
     {
         id: 218,
+        title: 'Subqueries - Nested Queries',
+        language: 'postgresql',
+        code: `-- Subquery i WHERE (filtrera baserat på resultat från annan fråga)
+SELECT username, age
+FROM users
+WHERE age > (SELECT AVG(age) FROM users);
+
+-- Subquery i FROM (använd resultat som en temporär tabell)
+SELECT avg_age_per_city.city, avg_age_per_city.average_age
+FROM (
+    SELECT city, AVG(age) as average_age
+    FROM users
+    GROUP BY city
+) AS avg_age_per_city
+WHERE avg_age_per_city.average_age > 25;
+
+-- Subquery med IN (kolla om värde finns i lista från subquery)
+SELECT name, price
+FROM products
+WHERE category_id IN (
+    SELECT id FROM categories WHERE name IN ('Electronics', 'Books')
+);
+
+-- Subquery med EXISTS (kolla om något finns)
+SELECT c.name, c.email
+FROM customers c
+WHERE EXISTS (
+    SELECT 1 FROM orders o WHERE o.customer_id = c.id
+);
+
+-- Subquery i SELECT (lägg till beräknad kolumn)
+SELECT 
+    p.name,
+    p.price,
+    (SELECT AVG(price) FROM products) as avg_price,
+    p.price - (SELECT AVG(price) FROM products) as price_difference
+FROM products p;`
+    },
+    {
+        id: 219,
         title: 'PostgreSQL Data Types & Constraints Cheat Sheet',
         language: 'postgresql',
         code: `-- ===== COMMON DATA TYPES =====
@@ -3002,6 +3109,28 @@ DEFAULT x     | Use x if no value provided
 CHECK (...)   | Custom validation rule
 REFERENCES    | Link to another table (foreign key)
 */`
+    },
+    {
+        id: 220,
+        title: 'Database Tools & Resources',
+        language: 'postgresql',
+        code: `-- ===== NYTTIGA VERKTYG =====
+
+-- 📊 DB Diagram - Visualisera och designa databasstrukturer
+-- https://dbdiagram.io/d
+-- Perfekt för att: 
+-- - Rita upp tabeller och relationer
+-- - Planera databas-design före implementation
+-- - Dela databas-schema med teamet
+-- - Generera SQL från diagram
+
+-- Exempel på användning:
+-- 1. Gå till https://dbdiagram.io/d
+-- 2. Rita dina tabeller och relationer
+-- 3. Exportera som SQL eller PNG
+-- 4. Använd SQL-koden för att skapa tabeller
+
+-- Tips: Spara länken till dina diagram för framtida referens!`
     }
 ];
 
